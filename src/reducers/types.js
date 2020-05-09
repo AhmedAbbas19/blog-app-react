@@ -1,0 +1,7 @@
+export default {
+  FETCH_HOT_BLOGS: 1,
+  FETCH_LATEST_BLOGS: 2,
+  FETCH_CATS: 3,
+  GET_BLOG_DATE: 4,
+  ADD_BLOG: 5,
+};

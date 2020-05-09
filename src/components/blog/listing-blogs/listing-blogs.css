@@ -1,0 +1,55 @@
+.list-blogs {
+  width: 78%;
+  margin-top: 32px;
+  padding-bottom: 42px;
+}
+.list-blogs .blog {
+  display: flex;
+  flex-wrap: wrap;
+  background: #fff;
+  margin-bottom: 28px;
+}
+.list-blogs .thumb {
+  width: 40%;
+}
+
+.list-blogs .info-card {
+  width: 60%;
+}
+.list-blogs img {
+  width: 100%;
+  height: 100%;
+}
+
+.list-blogs .info-card .title {
+  font-family: "Josefin Sans", sans-serif;
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  margin: 15px 0;
+}
+
+.list-blogs .card-container {
+  padding: 20px;
+}
+.list-blogs .info-card .date {
+  font-size: 14px;
+  color: #ec592d;
+  letter-spacing: 0.8px;
+  margin-right: 15px;
+}
+.list-blogs .info-card .author {
+  color: #c7c7c7;
+  font-size: 14px;
+}
+.list-blogs .info-card .paragraph {
+  margin: 15px 0;
+  font-size: 14px;
+  color: #848484;
+  letter-spacing: 0.7px;
+  line-height: 1.5;
+}
+.list-blogs .info-card .read-more {
+  color: #151515;
+  font-size: 14px;
+}

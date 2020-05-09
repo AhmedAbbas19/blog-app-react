@@ -1,0 +1,12 @@
+.not-found {
+  background: #fff;
+  text-align: center;
+  padding: 42px 0;
+}
+
+.not-found ._404 {
+  font-size: 128px;
+}
+.not-found .hint {
+  font-size: 18px;
+}

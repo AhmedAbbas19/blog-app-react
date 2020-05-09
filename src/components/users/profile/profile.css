@@ -1,0 +1,44 @@
+.profile {
+  display: flex;
+  flex-wrap: wrap;
+  background: #081d29;
+}
+.profile .thumb {
+  width: 20%;
+}
+.profile .thumb img {
+  width: 100%;
+  display: block;
+}
+
+.profile .info-card {
+  width: 80%;
+}
+.profile .info-card .card-container {
+  padding: 20px;
+}
+.profile .info-card .title {
+  color: #fff;
+}
+.profile .info-card .date {
+  color: #ec592d;
+  font-size: 14px;
+}
+.profile .info-card .paragraph {
+  margin: 20px 0;
+  color: #9e9e9e;
+  letter-spacing: 0.5px;
+  line-height: 1.5;
+  width: 81%;
+  font-size: 14px;
+}
+.profile .info-card .btn-follow {
+  padding: 8px 20px;
+  font-size: 16px;
+  background: #081d29;
+  border: 2px solid #ec592d;
+  color: #fff;
+  border-radius: 6px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+}

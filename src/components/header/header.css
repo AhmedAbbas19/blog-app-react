@@ -1,0 +1,123 @@
+header {
+  background: #fff;
+}
+
+.header__top {
+  padding: 32px 0;
+  border-bottom: 1px dashed #d2d2d2;
+}
+.header__top .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__top .title {
+  font-family: "Merienda", cursive;
+  font-size: 36px;
+  margin: 0;
+  text-align: center;
+}
+header .social-icons,
+.header__top .title,
+.header__right {
+  width: 33.33%;
+}
+header .social-icons i {
+  font-size: 14px;
+  margin-right: 16px;
+  color: #737373;
+}
+
+.search-form {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.search-form form {
+  margin: 10% auto;
+  width: 390px;
+}
+.search-form input {
+  padding: 20px;
+  font-size: 16px;
+  border-radius: 40px;
+  border: none;
+  width: 100%;
+}
+.search-form i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 26px;
+  color: #ff6d3f;
+  cursor: pointer;
+  padding: 22px;
+  background: #fff;
+}
+.search-form .filters {
+  list-style: none;
+}
+.search-form span {
+  color: #ff5722;
+  background: #fff;
+  padding: 10px 15px;
+  border-radius: 25px;
+  margin: 6px;
+}
+.search-form .filter {
+  display: inline-block;
+  background: #fff;
+  padding: 10px 26px;
+  border-radius: 25px;
+  margin: 6px;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.search-form .filter:hover,
+.search-form .filter.active {
+  background: #ff5722;
+  color: #fff;
+}
+.header__right {
+  list-style: none;
+}
+
+.header__right li {
+  display: inline-block;
+  padding: 5px 20px;
+}
+.nav-right {
+  float: right;
+}
+.header__right i {
+  font-size: 14px;
+  color: #7b7b7b;
+  cursor: pointer;
+  padding: 15px;
+}
+
+.navbar {
+  list-style: none;
+  text-align: center;
+  font-family: "Josefin Sans", sans-serif;
+}
+.navbar li {
+  display: inline-block;
+  padding: 24px;
+}
+
+.add-blog {
+  position: fixed;
+  background: #ff5722;
+  color: #fff;
+  border-radius: 32px;
+  padding: 15px 19px;
+  bottom: 40px;
+  font-size: 18px;
+  right: 40px;
+  z-index: 999;
+}

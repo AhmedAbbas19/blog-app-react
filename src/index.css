@@ -1,13 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Merienda:wght@700&family=Poppins&family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,400;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital@1&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  /* font-family: "Roboto", sans-serif; */
+  font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #f9f9ff;
+  line-break: anywhere;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.container {
+  max-width: 1170px;
+  margin: 0 auto;
+}
+.container-narrow {
+  max-width: 680px;
+  margin: 0 auto;
+}
+a,
+a:visited,
+a:hover,
+a:focus {
+  text-decoration: none;
+  color: inherit;
+}
+
+.heading {
+  position: relative;
+  margin: 42px 20px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.alert {
+  background: #ff4646;
+  color: #fff;
+  padding: 8px;
+  border-radius: 4px;
+  width: 50%;
+}
+.alert-danger {
+  background: #ff4646;
+  color: #fff;
+}
+input {
+  outline: none;
+}
+.btn {
+  background: #2282ff;
+  border: 0;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 5px;
+  letter-spacing: 0.8px;
+  margin-top: 22px;
+  cursor: pointer;
+  outline: none;
+  display: block;
+}
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #ff5722;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
 }

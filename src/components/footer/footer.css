@@ -1,0 +1,34 @@
+.footer {
+  background: #081d29;
+  color: #fff;
+  padding: 64px 0;
+}
+.footer .widgets {
+  display: flex;
+  justify-content: space-between;
+}
+.footer .widget {
+  padding: 0 18px;
+  width: 33.33%;
+}
+.footer .widget .title {
+  margin: 18px 0;
+}
+.footer .paragraph {
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: #bfbfbf;
+  margin: 18px 0;
+}
+.footer .widget span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.copy-rights {
+  text-align: center;
+  margin-top: 32px;
+}
+.copy-rights i {
+  color: red;
+}

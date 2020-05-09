@@ -1,0 +1,22 @@
+.categories-page .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.categories-page .sidebar {
+  width: 20%;
+  height: auto;
+  align-self: flex-start;
+  margin-top: 32px;
+  position: sticky;
+  top: 10px;
+}
+.categories-page .sidebar .categories {
+  background: #fff;
+  list-style: none;
+}
+
+.categories-page .sidebar .categories li {
+  padding: 15px;
+}

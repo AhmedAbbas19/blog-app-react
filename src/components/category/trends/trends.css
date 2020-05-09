@@ -1,0 +1,16 @@
+.trends {
+  background: #fff;
+  padding-top: 32px;
+}
+.trends .categories {
+  display: flex;
+  flex-wrap: wrap;
+}
+.trends .category {
+  width: 16.66%;
+  box-shadow: -1px -1px 6px #eaeaea;
+}
+.trends img {
+  width: 100%;
+  height: 100%;
+}
