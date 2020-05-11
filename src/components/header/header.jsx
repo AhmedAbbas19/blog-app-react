@@ -1,49 +1,84 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-
+import React, { Component, Fragment } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
+import { removeAuthUser, setAuthUser } from "../../actions/authActions";
+import { getUserByUsername } from "../../actions/userActions";
 import "./header.css";
+import { connect } from "react-redux";
 
-export default class Header extends Component {
+class Header extends Component {
   state = {
     type: "",
+    keyword: "",
     searchIsOpen: false,
   };
+  async componentDidMount() {
+    const username = localStorage.getItem("username");
+    const gettedUser = await getUserByUsername(username);
+    if (gettedUser.data) {
+      this.props.setAuthUser(gettedUser.data);
+    } else {
+      if (localStorage.getItem("jwtToken")) {
+        toast.error("Your session has expired");
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("username");
+      }
+    }
+  }
   searchInput = () => {
     this.setState({ searchIsOpen: !this.state.searchIsOpen });
   };
-  chaneFilter = (type) => {
+  changeType = (type) => {
     this.setState({ type });
   };
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { type, keyword } = this.state;
+    this.props.history.push(`/search?type=${type}&keyword=${keyword}`);
+    this.setState({ searchIsOpen: false });
+  };
+  changeHandler = ({ target }) => {
+    const newKeyword = target.value;
+    this.setState({ keyword: newKeyword });
+  };
+  logout = () => {
+    this.props.removeAuthUser();
+  };
   render() {
-    const { type } = this.state;
+    const { type, keyword } = this.state;
+    const { auth } = this.props;
     return (
       <header>
-        <div className="add-blog">
-          <Link to="add-blog">
-            <i className="fas fa-plus"></i>
-          </Link>
-        </div>
+        {auth.isAuthenticated ? (
+          <div className="add-blog">
+            <Link to="add-blog">
+              <i className="fas fa-plus"></i>
+            </Link>
+          </div>
+        ) : (
+          ""
+        )}
         {this.state.searchIsOpen ? (
           <div className="search-form">
             <i className="far fa-times-circle" onClick={this.searchInput}></i>
-            <form action="/search" method="GET">
+            <form onSubmit={this.onSubmit}>
               <ul className="filters">
                 <span>Search By</span>
                 <li
                   className={`filter ${type === "user" ? "active" : ""}`}
-                  onClick={() => this.chaneFilter("user")}
+                  onClick={() => this.changeType("user")}
                 >
                   User
                 </li>
                 <li
                   className={`filter ${type === "title" ? "active" : ""}`}
-                  onClick={() => this.chaneFilter("title")}
+                  onClick={() => this.changeType("title")}
                 >
                   Title
                 </li>
                 <li
                   className={`filter ${type === "tag" ? "active" : ""}`}
-                  onClick={() => this.chaneFilter("tag")}
+                  onClick={() => this.changeType("tag")}
                 >
                   Tag
                 </li>
@@ -53,6 +88,8 @@ export default class Header extends Component {
                 type="text"
                 name="keyword"
                 placeholder="type then press enter..."
+                value={keyword}
+                onChange={this.changeHandler}
               />
             </form>
           </div>
@@ -69,17 +106,38 @@ export default class Header extends Component {
               <i className="fab fa-linkedin"></i>
             </ul>
             <h1 className="title">
-              <Link to="/">Aladdin</Link>
+              <Link to="/">
+                Blog<span>arina</span>
+              </Link>
             </h1>
             <div className="header__right">
               <div className="nav-right">
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="/register">Register</Link>
-                </li>
-                <i className="fas fa-search" onClick={this.searchInput}></i>
+                {auth.isAuthenticated ? (
+                  <Fragment>
+                    <li>
+                      <Link to={`/profile/${auth.activeUser.username}`}>
+                        Me
+                      </Link>
+                    </li>
+                    <li onClick={this.logout} style={{ cursor: "pointer" }}>
+                      Logout
+                    </li>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <li>
+                      <Link to="/login">Login</Link>
+                    </li>
+                    <li>
+                      <Link to="/register">Register</Link>
+                    </li>
+                  </Fragment>
+                )}
+                {auth.isAuthenticated ? (
+                  <i className="fas fa-search" onClick={this.searchInput}></i>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
@@ -91,19 +149,13 @@ export default class Header extends Component {
                 <Link to="/home">Home</Link>
               </li>
               <li>
-                <Link to="/add-blog">Add</Link>
-              </li>
-              <li>
-                <Link to="/edit-blog">Edit</Link>
-              </li>
-              <li>
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/contacts">Contacts</Link>
+                <Link to="/comming-soon">Contacts</Link>
               </li>
               <li>
-                <Link to="/faq">FAQ</Link>
+                <Link to="/comming-soon">FAQ</Link>
               </li>
             </ul>
           </div>
@@ -112,3 +164,12 @@ export default class Header extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+
+export default withRouter(
+  connect(mapStateToProps, { setAuthUser, removeAuthUser })(Header)
+);

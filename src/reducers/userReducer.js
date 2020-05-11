@@ -1,5 +1,3 @@
-import TYPES from "./types";
-
 const initialState = {
   items: [],
   item: {},

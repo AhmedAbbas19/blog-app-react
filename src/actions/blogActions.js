@@ -29,13 +29,44 @@ export function fetchLatestBlogs(start, size) {
   };
 }
 
+export function fetchMoreLatestBlogs(start, size) {
+  return function (dispatch) {
+    axios
+      .get(`http://localhost:4200/blogs?start=${start}&size=${size}`)
+      .then((res) => {
+        const blogs = res.data;
+        dispatch({
+          type: TYPES.FETCH_MORE_LATEST_BLOGS,
+          payload: blogs,
+        });
+      });
+  };
+}
+
+export function moveStart(start, size) {
+  return function (dispatch) {
+    dispatch({
+      type: TYPES.MOVE_START,
+      payload: start + size,
+    });
+  };
+}
+
 export function getDateString(blogDate) {
   let date = new Date(blogDate);
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
 
 export async function addBlog(blog) {
-  const { data } = await axios.post(
+  return await axios.post(`http://localhost:4200/blogs`, JSON.stringify(blog), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
+export async function editBlog(blog) {
+  return await axios.patch(
     `http://localhost:4200/blogs`,
     JSON.stringify(blog),
     {
@@ -44,7 +75,17 @@ export async function addBlog(blog) {
       },
     }
   );
-  return data;
+}
+
+export async function deleteBlog(id) {
+  return await axios.delete(`http://localhost:4200/blogs`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: {
+      source: id,
+    },
+  });
 }
 
 export function sanitizeHtml(strInputCode) {

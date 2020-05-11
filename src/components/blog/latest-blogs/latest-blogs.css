@@ -40,7 +40,7 @@
 }
 .latest-blogs .blog .info-card {
   padding: 20px;
-  min-height: 232px;
+  min-height: 255px;
   position: relative;
 }
 .latest-blogs .blog .info-card .title {

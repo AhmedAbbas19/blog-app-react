@@ -2,16 +2,28 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./latest-blogs.css";
 import { connect } from "react-redux";
-import { fetchLatestBlogs, sanitizeHtml } from "../../../actions/blogActions";
+import {
+  fetchLatestBlogs,
+  fetchMoreLatestBlogs,
+  sanitizeHtml,
+  moveStart,
+  getDateString,
+} from "../../../actions/blogActions";
 
 class LatestBlogs extends Component {
   componentDidMount() {
-    this.props.fetchLatestBlogs(4, 110);
+    if (this.props.blogs.length === 0) {
+      this.props.fetchLatestBlogs(this.props.start, this.props.size);
+      this.props.moveStart(this.props.start, this.props.size);
+    } else {
+      this.props.fetchLatestBlogs(4, this.props.start - 4);
+    }
   }
-  getDateString(blogDate) {
-    let date = new Date(blogDate);
-    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
-  }
+  loadMore = () => {
+    this.props.fetchMoreLatestBlogs(this.props.start, this.props.size);
+    this.props.moveStart(this.props.start, this.props.size);
+  };
+
   render() {
     const { blogs } = this.props;
     if (!blogs.length) {
@@ -41,7 +53,7 @@ class LatestBlogs extends Component {
                       {blog.title.length > 42 ? "..." : ""}
                     </Link>
                     <Link to="" className="date">
-                      {this.getDateString(blog.createdAt)}
+                      {getDateString(blog.createdAt)}
                     </Link>
                     <Link
                       to={`/profile/${blog.author.username}`}
@@ -61,6 +73,9 @@ class LatestBlogs extends Component {
               </div>
             ))}
           </div>
+          <button className="btn" onClick={this.loadMore}>
+            Load More
+          </button>
         </div>
       </section>
     );
@@ -70,6 +85,12 @@ class LatestBlogs extends Component {
 function mapStateToProps(state) {
   return {
     blogs: state.blogs.latestItems,
+    start: state.blogs.start,
+    size: state.blogs.size,
   };
 }
-export default connect(mapStateToProps, { fetchLatestBlogs })(LatestBlogs);
+export default connect(mapStateToProps, {
+  fetchLatestBlogs,
+  fetchMoreLatestBlogs,
+  moveStart,
+})(LatestBlogs);

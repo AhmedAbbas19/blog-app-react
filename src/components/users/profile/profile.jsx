@@ -4,8 +4,10 @@ import "./profile.css";
 import axios from "axios";
 import ListingBlogs from "../../blog/listing-blogs/listing-blogs";
 import { getDateString } from "../../../actions/blogActions";
+import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
-export class Profile extends Component {
+class Profile extends Component {
   state = {
     user: {},
     loaded: false,
@@ -15,16 +17,23 @@ export class Profile extends Component {
     const username = this.props.match.params.username;
     axios.get(`http://localhost:4200/users/${username}`).then((res) => {
       const user = res.data;
-      this.setState({ user, loaded: true });
+      if (
+        this.props.auth.activeUser.followers.includes(user._id) ||
+        this.props.auth.activeUser.username === username
+      ) {
+        this.setState({ user, loaded: true });
+      } else {
+        toast.error(`Follow ${user.fname} to see the profile`);
+        this.props.history.push("/");
+      }
     });
   }
-
   render() {
     const { user, loaded } = this.state;
     if (!loaded) {
       return (
         <div className="container text-center">
-          <div class="lds-ripple">
+          <div className="lds-ripple">
             <div></div>
             <div></div>
           </div>
@@ -49,7 +58,6 @@ export class Profile extends Component {
                 Joined {getDateString(user.createdAt) || "Unknown"}
               </span>
               <p className="paragraph">{user.about}</p>
-              <button className="btn-follow">Follow</button>
             </div>
           </div>
         </div>
@@ -60,3 +68,10 @@ export class Profile extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps, {})(Profile);

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-// import "./login.css";
+import React, { useState, useEffect } from "react";
 import joi from "joi-browser";
 import { toast } from "react-toastify";
 import { userLogin } from "../../../actions/userActions";
-import setAurhorizationToken from "../utils/utils";
-import setAuthorizationToken from "../utils/utils";
+import { connect } from "react-redux";
+import { setAuthUser } from "../../../actions/authActions";
 
 const Login = (props) => {
   const initUser = {
@@ -13,6 +12,13 @@ const Login = (props) => {
   };
   const [user, setUser] = useState(initUser);
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (props.auth.activeUser._id) {
+      console.log(props.auth.activeUser);
+      props.history.push("/");
+    }
+  }, []);
 
   const schema = {
     email: joi.string().required().email(),
@@ -25,17 +31,13 @@ const Login = (props) => {
     if (_errors) {
       toast.error(_errors.details[0].message);
     } else {
-      try {
-        const response = await userLogin(user);
-        const token = response.data.token;
-        localStorage.setItem("jwtToken", token);
-        setAuthorizationToken(token);
-        toast.info(response.data.message);
+      const login = await userLogin(user);
+      if (login.data) {
+        props.setAuthUser(login.data.user);
+        toast.success(login.data.message);
         props.history.push("/home");
-      } catch (e) {
-        if (e.response) {
-          toast.error(e.response.data.message);
-        }
+      } else {
+        toast.error(login.response.data.message);
       }
     }
   };
@@ -88,4 +90,9 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps, { setAuthUser })(Login);

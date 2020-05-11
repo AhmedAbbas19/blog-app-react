@@ -48,11 +48,7 @@ export class Footer extends Component {
             </div>
           </div>
           <div className="copy-rights">
-            <p className="paragraph">
-              Copyright ©2020 All rights reserved | This template is made with
-              <i className="fa fa-heart"></i> by{" "}
-              <a href="https://www.facebook.com/AhmeddAbbas17/">Ahmed Abbas</a>
-            </p>
+            <p className="paragraph">Copyright ©2020 All rights reserved</p>
           </div>
         </div>
       </div>

@@ -18,6 +18,9 @@ header {
   margin: 0;
   text-align: center;
 }
+.header__top .title span {
+  color: #ff5722;
+}
 header .social-icons,
 .header__top .title,
 .header__right {

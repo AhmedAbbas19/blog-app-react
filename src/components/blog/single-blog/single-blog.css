@@ -53,3 +53,35 @@
   margin-right: 5px;
   border-radius: 4px;
 }
+.single-blog .blog-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.single-blog .blog-control {
+  list-style: none;
+}
+.single-blog .blog-control li {
+  margin-left: 10px;
+  border-radius: 40px;
+  display: inline-block;
+  cursor: pointer;
+}
+.single-blog .blog-control .link {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+.single-blog .blog-control .icon-edit {
+  background: #f7d931;
+}
+.single-blog .blog-control .icon-delete {
+  background: #f76931;
+}
+.single-blog .btn-follow {
+  background: #ff5722;
+}

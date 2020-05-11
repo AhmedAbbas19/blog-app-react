@@ -33,7 +33,7 @@ const Register = (props) => {
     } else {
       try {
         const response = await addUser(user);
-        toast.info(response.data.message);
+        toast.success(response.data.message);
         props.history.push("/login");
       } catch (e) {
         if (e.response) {

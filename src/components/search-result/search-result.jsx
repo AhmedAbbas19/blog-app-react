@@ -12,7 +12,9 @@ export default class SearchResult extends Component {
   componentDidMount() {
     this.fetchMyBlogs();
   }
-
+  componentWillUpdate() {
+    this.fetchMyBlogs();
+  }
   fetchMyBlogs = async () => {
     try {
       let { keyword } = queryString.parse(this.props.location.search);

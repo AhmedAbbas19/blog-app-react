@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import "./myeditor.css";
 import { fetchCategories } from "../../actions/catActions";
-import { addBlog } from "../../actions/blogActions";
+import { addBlog, editBlog } from "../../actions/blogActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import ImageUploader from "react-images-upload";
@@ -11,48 +11,71 @@ import joi from "joi-browser";
 import { toast } from "react-toastify";
 
 const MyEditor = (props) => {
-  const { quill, quillRef } = useQuill();
-
   const initBlog = {
-    title: "",
-    body: "",
-    tags: [],
-    category: "",
     imageUrl: "",
+    tags: [],
+    title: "",
+    category: "",
   };
 
   const [blog, setBlog] = useState(initBlog);
-  const [errors, setErrors] = useState({});
+  const [mode, setMode] = useState("add");
+  const [blogBody, setBlogBody] = useState("");
 
   useEffect(() => {
     props.fetchCategories();
+    const id = props.match.params.id;
+    if (id) {
+      const _blog = props.blogs.find((b) => b._id === id);
+      if (_blog) {
+        setMode("edit");
+        _blog.author = _blog.author._id;
+        _blog.category = _blog.category._id;
+        setBlog(_blog);
+        setBlogBody(_blog.body);
+      } else {
+        toast.error("Invalid Process");
+        props.history.push("/");
+      }
+    }
   }, []);
 
   const schema = {
     title: joi.string().required().min(10).max(70),
     body: joi.string().required().min(200),
-    category: joi.string().required(),
-    author: joi.string().required(),
-    tags: joi.array().items(joi.string()).optional(),
-    imageUrl: joi.string().valid("").optional(),
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    blog.body = quill.container.firstChild.innerHTML;
-    blog.author = "5eaeada198429795182d92ac";
-    let _errors = joi.validate(blog, schema).error;
+    setBlog({ ...blog, body: blogBody });
+    let _errors = joi.validate({ title: blog.title, body: blog.body }, schema)
+      .error;
     if (_errors) {
       toast.error(_errors.details[0].message);
     } else {
-      try {
-        const response = await addBlog(blog);
-        toast.info(response.data.message);
-        props.history.push("/home");
-      } catch (e) {
-        if (e.response) {
-          toast.info(e.response.data.message);
-        }
+      if (mode === "add") {
+        blog.author = props.auth.activeUser._id;
+        addBlog(blog)
+          .then((response) => {
+            toast.success(response.data.message);
+            props.history.push("/");
+          })
+          .catch((e) => {
+            if (e.response) {
+              toast.error(e.response.data.message);
+            }
+          });
+      } else {
+        editBlog(blog)
+          .then((response) => {
+            toast.success(response.data.message);
+            props.history.push("/");
+          })
+          .catch((e) => {
+            if (e.response) {
+              toast.error(e.response.data.message);
+            }
+          });
       }
     }
   };
@@ -60,12 +83,6 @@ const MyEditor = (props) => {
   const changeHandler = ({ target }) => {
     let newBlog = { ...blog };
     newBlog[target.name] = target.value;
-    let _errors = { ...errors, [target.name]: "" };
-    let error = validateInput(target).error;
-    if (error) {
-      _errors[target.name] = error.details[0].message;
-    }
-    setErrors(_errors);
     setBlog(newBlog);
   };
 
@@ -88,11 +105,10 @@ const MyEditor = (props) => {
     setBlog(newBlog);
   };
 
-  const validateInput = (target) => {
-    const inputSchema = { [target.name]: schema[target.name] };
-    const input = { [target.name]: target.value };
-    return joi.validate(input, inputSchema);
+  const editorChange = (value) => {
+    setBlogBody(value);
   };
+
   return (
     <div className="my-editor">
       <div className="editor-form">
@@ -110,7 +126,12 @@ const MyEditor = (props) => {
           />
 
           <label className="label">Blog Content</label>
-          <div ref={quillRef} />
+          <ReactQuill
+            theme="snow"
+            value={blogBody}
+            name="body"
+            onChange={editorChange}
+          />
 
           <label htmlFor="category" className="label">
             Category
@@ -119,14 +140,14 @@ const MyEditor = (props) => {
             name="category"
             id="category"
             className="form-control"
-            value={blog.category}
+            value={blog.category || ""}
             onChange={changeHandler}
           >
             <option value="" disabled>
               Choose Category
             </option>
             {props.categories.map((cat) => (
-              <option value={cat._id} key={cat._id}>
+              <option value={`${cat._id}`} key={cat._id}>
                 {cat.title}
               </option>
             ))}
@@ -151,7 +172,7 @@ const MyEditor = (props) => {
               </li>
             ))}
           </div>
-          <button className="btn">Post</button>
+          <button className="btn">{mode === "add" ? "Post" : "Edit"}</button>
         </form>
       </div>
       <div className="thumbnail">
@@ -174,10 +195,12 @@ const MyEditor = (props) => {
 
 function mapStateToProps(state) {
   return {
+    blogs: state.blogs.hotItems.concat(state.blogs.latestItems),
     categories: state.categories.items,
+    auth: state.auth,
   };
 }
 
 export default withRouter(
-  connect(mapStateToProps, { fetchCategories, addBlog })(MyEditor)
+  connect(mapStateToProps, { fetchCategories, addBlog, editBlog })(MyEditor)
 );

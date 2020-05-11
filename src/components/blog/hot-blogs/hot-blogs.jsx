@@ -16,10 +16,8 @@ class HotBlogs extends Component {
   componentDidMount() {
     this.props.fetchHotBlogs(0, 4);
   }
-
   render() {
     let [leftBlog, midBlog, rTopBlog, rBottomBlog] = this.props.blogs;
-
     if (!this.props.blogs.length) {
       return (
         <div className="container text-center">
