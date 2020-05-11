@@ -6,13 +6,11 @@ import { fetchCategories } from "../../actions/catActions";
 import { addBlog, editBlog } from "../../actions/blogActions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import ImageUploader from "react-images-upload";
 import joi from "joi-browser";
 import { toast } from "react-toastify";
 
 const MyEditor = (props) => {
   const initBlog = {
-    imageUrl: "",
     tags: [],
     title: "",
     category: "",
@@ -21,6 +19,7 @@ const MyEditor = (props) => {
   const [blog, setBlog] = useState(initBlog);
   const [mode, setMode] = useState("add");
   const [blogBody, setBlogBody] = useState("");
+  const [blogImage, setBlogImage] = useState("");
 
   useEffect(() => {
     props.fetchCategories();
@@ -48,14 +47,15 @@ const MyEditor = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     setBlog({ ...blog, body: blogBody });
-    let _errors = joi.validate({ title: blog.title, body: blog.body }, schema)
+    let _errors = joi.validate({ title: blog.title, body: blogBody }, schema)
       .error;
     if (_errors) {
       toast.error(_errors.details[0].message);
     } else {
       if (mode === "add") {
         blog.author = props.auth.activeUser._id;
-        addBlog(blog)
+        blog.body = blogBody;
+        addBlog(blog, blogImage)
           .then((response) => {
             toast.success(response.data.message);
             props.history.push("/");
@@ -66,7 +66,7 @@ const MyEditor = (props) => {
             }
           });
       } else {
-        editBlog(blog)
+        editBlog(blog, blogImage)
           .then((response) => {
             toast.success(response.data.message);
             props.history.push("/");
@@ -98,11 +98,8 @@ const MyEditor = (props) => {
     }
   };
 
-  const onDrop = (picture) => {
-    console.log(picture[0].name);
-    let newBlog = { ...blog };
-    newBlog.imageUrl = `/imgs/${picture[0].name}`;
-    setBlog(newBlog);
+  const imageChange = ({ target }) => {
+    setBlogImage(target.files[0]);
   };
 
   const editorChange = (value) => {
@@ -172,23 +169,13 @@ const MyEditor = (props) => {
               </li>
             ))}
           </div>
+          <div className="thumbnail">
+            <label className="label">Blog thumbnail</label>
+            <input type="file" name="image" onChange={imageChange} />
+          </div>
           <button className="btn">{mode === "add" ? "Post" : "Edit"}</button>
         </form>
       </div>
-      <div className="thumbnail">
-        <label className="label">Blog thumbnail</label>
-        <ImageUploader
-          withIcon={true}
-          buttonText="Choose images"
-          onChange={onDrop}
-          imgExtension={[".jpg", ".gif", ".png", ".gif", ".jpeg"]}
-          maxFileSize={5242880}
-          style={{ backgroungImage: `url('${blog.imageUrl}')` }}
-        />
-
-        <img src={blog.imageUrl} alt="" />
-      </div>
-      {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
     </div>
   );
 };

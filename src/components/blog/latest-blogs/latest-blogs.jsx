@@ -8,6 +8,7 @@ import {
   sanitizeHtml,
   moveStart,
   getDateString,
+  getBlogImageUrl,
 } from "../../../actions/blogActions";
 
 class LatestBlogs extends Component {
@@ -45,7 +46,14 @@ class LatestBlogs extends Component {
               <div className="item" key={blog._id}>
                 <div className="blog">
                   <div className="thumb">
-                    <img src={blog.imageUrl || "/imgs/quote.jpg"} alt="" />
+                    <img
+                      src={
+                        blog.image
+                          ? getBlogImageUrl(blog.image.data)
+                          : "/imgs/no-image.jpg"
+                      }
+                      alt=""
+                    />
                   </div>
                   <div className="info-card">
                     <Link to={`/blog/${blog.slug}`} className="title">
@@ -73,7 +81,7 @@ class LatestBlogs extends Component {
               </div>
             ))}
           </div>
-          <button className="btn" onClick={this.loadMore}>
+          <button className="btn btn-load-more" onClick={this.loadMore}>
             Load More
           </button>
         </div>

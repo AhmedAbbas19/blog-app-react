@@ -1,10 +1,11 @@
 import TYPES from "../reducers/types";
 import axios from "axios";
+import { BACKEND_URL } from "../config";
 
 export function fetchHotBlogs(start, size) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:4200/blogs?start=${start}&size=${size}`)
+      .get(`${BACKEND_URL}/blogs?start=${start}&size=${size}`)
       .then((res) => {
         const blogs = res.data;
         dispatch({
@@ -18,7 +19,7 @@ export function fetchHotBlogs(start, size) {
 export function fetchLatestBlogs(start, size) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:4200/blogs?start=${start}&size=${size}`)
+      .get(`${BACKEND_URL}/blogs?start=${start}&size=${size}`)
       .then((res) => {
         const blogs = res.data;
         dispatch({
@@ -32,7 +33,7 @@ export function fetchLatestBlogs(start, size) {
 export function fetchMoreLatestBlogs(start, size) {
   return function (dispatch) {
     axios
-      .get(`http://localhost:4200/blogs?start=${start}&size=${size}`)
+      .get(`${BACKEND_URL}/blogs?start=${start}&size=${size}`)
       .then((res) => {
         const blogs = res.data;
         dispatch({
@@ -57,28 +58,32 @@ export function getDateString(blogDate) {
   return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
 }
 
-export async function addBlog(blog) {
-  return await axios.post(`http://localhost:4200/blogs`, JSON.stringify(blog), {
-    headers: {
-      "Content-Type": "application/json",
-    },
+export async function addBlog(blog, imageFile) {
+  let bodyFormData = new FormData();
+  bodyFormData.set("blog", JSON.stringify(blog));
+  bodyFormData.append("image", imageFile);
+  return await axios({
+    method: "post",
+    url: `${BACKEND_URL}/blogs`,
+    data: bodyFormData,
+    headers: { "Content-Type": "multipart/form-data" },
   });
 }
 
-export async function editBlog(blog) {
-  return await axios.patch(
-    `http://localhost:4200/blogs`,
-    JSON.stringify(blog),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+export async function editBlog(blog, imageFile) {
+  let bodyFormData = new FormData();
+  bodyFormData.set("blog", JSON.stringify(blog));
+  bodyFormData.append("image", imageFile);
+  return await axios({
+    method: "patch",
+    url: `${BACKEND_URL}/blogs`,
+    data: bodyFormData,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 }
 
 export async function deleteBlog(id) {
-  return await axios.delete(`http://localhost:4200/blogs`, {
+  return await axios.delete(`${BACKEND_URL}/blogs`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -90,4 +95,10 @@ export async function deleteBlog(id) {
 
 export function sanitizeHtml(strInputCode) {
   return strInputCode.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+export function getBlogImageUrl(imageBuffer) {
+  return `data:image/jpg;base64,${btoa(
+    String.fromCharCode.apply(null, new Uint8Array(imageBuffer))
+  )}`;
 }

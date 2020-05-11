@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./listing-blogs.css";
-import { getDateString, sanitizeHtml } from "../../../actions/blogActions";
+import {
+  getDateString,
+  sanitizeHtml,
+  getBlogImageUrl,
+} from "../../../actions/blogActions";
 import { capitalize } from "../../../actions/utilActions";
 
 export default class ListingBlogs extends Component {
@@ -13,7 +17,14 @@ export default class ListingBlogs extends Component {
         {blogs.map((blog) => (
           <div className="blog" key={blog._id}>
             <div className="thumb">
-              <img src={blog.imageUrl} alt="" />
+              <img
+                src={
+                  blog.image
+                    ? getBlogImageUrl(blog.image.data)
+                    : "/imgs/no-image.jpg"
+                }
+                alt=""
+              />
             </div>
             <div className="info-card">
               <div className="card-container">

@@ -74,3 +74,6 @@
   position: absolute;
   bottom: 15px;
 }
+.btn-load-more {
+  margin: 32px auto 0;
+}

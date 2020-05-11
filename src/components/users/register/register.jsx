@@ -6,12 +6,12 @@ import { addUser } from "../../../actions/userActions";
 
 const Register = (props) => {
   const initUser = {
-    fname: "bam",
-    lname: "beezly",
-    username: "Baamyy",
-    email: "beezly@gmail.com",
-    password: "123456789",
-    about: "hey i'm bam",
+    fname: "",
+    lname: "",
+    username: "",
+    email: "",
+    password: "",
+    about: "",
   };
   const [user, setUser] = useState(initUser);
   const [errors, setErrors] = useState({});

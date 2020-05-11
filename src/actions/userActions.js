@@ -1,16 +1,14 @@
 import axios from "axios";
 import setAuthorizationToken from "../components/users/utils/utils";
+import { BACKEND_URL } from "../config";
 
 export async function getUserByUsername(username) {
   try {
-    const response = await axios.get(
-      `http://localhost:4200/users/${username}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.get(`${BACKEND_URL}/users/${username}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return response;
   } catch (error) {
     return error;
@@ -18,20 +16,16 @@ export async function getUserByUsername(username) {
 }
 
 export function addUser(user) {
-  return axios.post(
-    `http://localhost:4200/users/register`,
-    JSON.stringify(user),
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  return axios.post(`${BACKEND_URL}/users/register`, JSON.stringify(user), {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 }
 export async function userLogin(user) {
   try {
     const response = await axios.post(
-      `http://localhost:4200/users/login`,
+      `${BACKEND_URL}/users/login`,
       JSON.stringify(user),
       {
         headers: {
@@ -51,7 +45,7 @@ export async function userLogin(user) {
 
 export async function followUser(activeId, followerId, follow) {
   return await axios.patch(
-    `http://localhost:4200/users`,
+    `${BACKEND_URL}/users`,
     JSON.stringify({ activeId, followerId, follow }),
     {
       headers: {

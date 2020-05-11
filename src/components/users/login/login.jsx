@@ -7,8 +7,8 @@ import { setAuthUser } from "../../../actions/authActions";
 
 const Login = (props) => {
   const initUser = {
-    email: "beezly@gmail.com",
-    password: "123456789",
+    email: "",
+    password: "",
   };
   const [user, setUser] = useState(initUser);
   const [errors, setErrors] = useState({});

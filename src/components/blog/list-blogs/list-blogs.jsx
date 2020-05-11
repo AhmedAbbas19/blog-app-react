@@ -7,6 +7,7 @@ import ListingBlogs from "../listing-blogs/listing-blogs";
 import { fetchCategories } from "../../../actions/catActions";
 import { capitalize } from "../../../actions/utilActions";
 import { connect } from "react-redux";
+import { BACKEND_URL } from "../../../config";
 
 class ListBlogs extends Component {
   state = {
@@ -23,18 +24,17 @@ class ListBlogs extends Component {
       this.fetchMyBlogs();
     }
   }
+
   fetchMyBlogs() {
     let { title } = queryString.parse(this.props.location.search);
     if (!title) {
       this.setState({ title: "No result to show", blogs: [], loaded: true });
     } else {
       let type = this.props.location.pathname;
-      axios
-        .get(`http://localhost:4200/blogs${type}?title=${title}`)
-        .then((res) => {
-          const blogs = res.data;
-          this.setState({ title, blogs, loaded: true });
-        });
+      axios.get(`${BACKEND_URL}/blogs${type}?title=${title}`).then((res) => {
+        const blogs = res.data;
+        this.setState({ title, blogs, loaded: true });
+      });
     }
   }
   render() {

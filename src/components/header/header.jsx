@@ -107,7 +107,7 @@ class Header extends Component {
             </ul>
             <h1 className="title">
               <Link to="/">
-                Blog<span>arina</span>
+                Blog<span>arena</span>
               </Link>
             </h1>
             <div className="header__right">

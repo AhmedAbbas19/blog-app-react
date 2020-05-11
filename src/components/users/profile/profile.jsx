@@ -6,6 +6,7 @@ import ListingBlogs from "../../blog/listing-blogs/listing-blogs";
 import { getDateString } from "../../../actions/blogActions";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import { BACKEND_URL } from "../../../config";
 
 class Profile extends Component {
   state = {
@@ -15,7 +16,7 @@ class Profile extends Component {
 
   componentDidMount() {
     const username = this.props.match.params.username;
-    axios.get(`http://localhost:4200/users/${username}`).then((res) => {
+    axios.get(`${BACKEND_URL}/users/${username}`).then((res) => {
       const user = res.data;
       if (
         this.props.auth.activeUser.followers.includes(user._id) ||

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./trends.css";
 import { connect } from "react-redux";
 import { fetchCategories } from "../../../actions/catActions";
+import { getBlogImageUrl } from "../../../actions/blogActions";
 
 class Trends extends Component {
   componentDidMount() {
@@ -29,7 +30,7 @@ class Trends extends Component {
           {categories.map((cat) => (
             <div className="category" key={cat._id}>
               <Link to={`/categories?title=${cat.title}`}>
-                <img src={cat.imageUrl} alt={cat.title} />
+                <img src={getBlogImageUrl(cat.image.data)} alt={cat.title} />
               </Link>
             </div>
           ))}

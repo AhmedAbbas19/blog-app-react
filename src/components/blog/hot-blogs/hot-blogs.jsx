@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./hot-blogs.css";
 import { connect } from "react-redux";
-import { fetchHotBlogs, getDateString } from "../../../actions/blogActions";
+import {
+  fetchHotBlogs,
+  getDateString,
+  getBlogImageUrl,
+} from "../../../actions/blogActions";
 import { capitalize } from "../../../actions/utilActions";
 
 class HotBlogs extends Component {
@@ -33,7 +37,11 @@ class HotBlogs extends Component {
         <div
           className="blog left-blog"
           style={{
-            backgroundImage: `url('${leftBlog.imageUrl || "/imgs/quote.jpg"}')`,
+            backgroundImage: `url('${
+              leftBlog.image
+                ? getBlogImageUrl(leftBlog.image.data)
+                : "/imgs/no-image.jpg"
+            }')`,
           }}
         >
           <div className="layover"></div>
@@ -66,7 +74,11 @@ class HotBlogs extends Component {
         <div
           className="blog mid-blog"
           style={{
-            backgroundImage: `url('${midBlog.imageUrl || "/imgs/quote.jpg"}')`,
+            backgroundImage: `url('${
+              midBlog.image
+                ? getBlogImageUrl(midBlog.image.data)
+                : "/imgs/no-image.jpg"
+            }')`,
           }}
         >
           <div className="layover"></div>
@@ -98,7 +110,9 @@ class HotBlogs extends Component {
             className="blog right-top"
             style={{
               backgroundImage: `url('${
-                rTopBlog.imageUrl || "/imgs/quote.jpg"
+                rTopBlog.image
+                  ? getBlogImageUrl(rTopBlog.image.data)
+                  : "/imgs/no-image.jpg"
               }')`,
             }}
           >
@@ -124,7 +138,9 @@ class HotBlogs extends Component {
             className="blog right-bottom"
             style={{
               backgroundImage: `url('${
-                rBottomBlog.imageUrl || "/imgs/quote.jpg"
+                rBottomBlog.image
+                  ? getBlogImageUrl(rBottomBlog.image.data)
+                  : "/imgs/no-image.jpg"
               }')`,
             }}
           >

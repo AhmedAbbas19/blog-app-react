@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import queryString from "query-string";
 import ListingBlogs from "../blog/listing-blogs/listing-blogs";
 import axios from "axios";
+import { BACKEND_URL } from "../../config";
 
 export default class SearchResult extends Component {
   state = {
@@ -20,7 +21,7 @@ export default class SearchResult extends Component {
       let { keyword } = queryString.parse(this.props.location.search);
       let { type } = queryString.parse(this.props.location.search);
       const { data } = await axios.get(
-        `http://localhost:4200/blogs/search?keyword=${keyword}&type=${type}`
+        `${BACKEND_URL}/blogs/search?keyword=${keyword}&type=${type}`
       );
       this.setState({
         blogs: data,

@@ -2,11 +2,16 @@ import React, { Component, Fragment } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./single-blog.css";
 import { connect } from "react-redux";
-import { getDateString, deleteBlog } from "../../../actions/blogActions";
+import {
+  getDateString,
+  deleteBlog,
+  getBlogImageUrl,
+} from "../../../actions/blogActions";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { followUser } from "../../../actions/userActions";
 import { setAuthUser, authfollowers } from "../../../actions/authActions";
+import { BACKEND_URL } from "../../../config";
 
 class SingleBlog extends Component {
   state = {
@@ -17,7 +22,7 @@ class SingleBlog extends Component {
     const slug = this.props.match.params.slug;
     let blog = this.props.blogs.find((b) => b.slug === slug);
     if (!blog) {
-      axios.get("http://localhost:4200/blogs/slug/" + slug).then((res) => {
+      axios.get(`${BACKEND_URL}/blogs/slug/${slug}`).then((res) => {
         blog = res.data;
         this.setState({ blog, loaded: true });
       });
@@ -144,7 +149,14 @@ class SingleBlog extends Component {
           </div>
         </div>
         <div className="blog-img">
-          <img src={blog.imageUrl} alt="" />
+          <img
+            src={
+              blog.image
+                ? getBlogImageUrl(blog.image.data)
+                : "/imgs/no-image.jpg"
+            }
+            alt=""
+          />
         </div>
         <div className="container-narrow">
           <div className="blog-body">
