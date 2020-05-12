@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link, Redirect } from "react-router-dom";
 import queryString from "query-string";
 import axios from "axios";
@@ -8,6 +8,13 @@ import { fetchCategories } from "../../../actions/catActions";
 import { capitalize } from "../../../actions/utilActions";
 import { connect } from "react-redux";
 import { BACKEND_URL } from "../../../config";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  makeStyles,
+} from "@material-ui/core";
 
 class ListBlogs extends Component {
   state = {
@@ -37,10 +44,10 @@ class ListBlogs extends Component {
       });
     }
   }
+
   render() {
     const { blogs, loaded, title } = this.state;
     const { categories } = this.props;
-
     if (!loaded) {
       return (
         <div className="container text-center">
@@ -58,17 +65,20 @@ class ListBlogs extends Component {
       <section className="categories-page">
         <div className="container">
           <ListingBlogs blogs={blogs} title={title} />
-          <div className="sidebar">
+          <div className="sidebar sm-12">
             <h2 className="heading">Categories</h2>
-            <ul className="categories">
+            <List component="nav" aria-label="mailbox folders">
               {categories.map((cat) => (
-                <li key={cat._id}>
+                <Fragment>
                   <Link to={`/categories?title=${cat.title}`}>
-                    {capitalize(cat.title)}
+                    <ListItem button key={cat._id}>
+                      <ListItemText primary={capitalize(cat.title)} />
+                    </ListItem>
                   </Link>
-                </li>
+                  <Divider />
+                </Fragment>
               ))}
-            </ul>
+            </List>
           </div>
         </div>
       </section>

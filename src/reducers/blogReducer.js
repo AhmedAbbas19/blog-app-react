@@ -1,10 +1,12 @@
 import TYPES from "./types";
+import { toast } from "react-toastify";
 
 const initialState = {
   hotItems: [],
   latestItems: [],
   start: 4,
   size: 3,
+  nomore: false,
 };
 
 export default function (state = initialState, action) {
@@ -20,11 +22,19 @@ export default function (state = initialState, action) {
         latestItems: action.payload,
       };
     case TYPES.FETCH_MORE_LATEST_BLOGS:
-      const latest = state.latestItems.concat(action.payload);
-      return {
-        ...state,
-        latestItems: latest,
-      };
+      if (action.payload.length) {
+        return {
+          ...state,
+          latestItems: state.latestItems.concat(action.payload),
+          start: state.start + action.payload.length,
+        };
+      } else {
+        toast.info("No more blogs");
+        return {
+          ...state,
+          nomore: true,
+        };
+      }
     case TYPES.ADD_BLOG:
       let blogs = state.latestItems;
       blogs.push(action.payload);

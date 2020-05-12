@@ -10,6 +10,7 @@ import {
   getDateString,
   getBlogImageUrl,
 } from "../../../actions/blogActions";
+import { Button } from "@material-ui/core";
 
 class LatestBlogs extends Component {
   componentDidMount() {
@@ -22,7 +23,6 @@ class LatestBlogs extends Component {
   }
   loadMore = () => {
     this.props.fetchMoreLatestBlogs(this.props.start, this.props.size);
-    this.props.moveStart(this.props.start, this.props.size);
   };
 
   render() {
@@ -43,8 +43,8 @@ class LatestBlogs extends Component {
           <h2 className="heading">Latest Blogs</h2>
           <div className="latest-items">
             {blogs.map((blog) => (
-              <div className="item" key={blog._id}>
-                <div className="blog">
+              <div className="item md-6 sm-12" key={blog._id}>
+                <article className="blog">
                   <div className="thumb">
                     <img
                       src={
@@ -77,13 +77,25 @@ class LatestBlogs extends Component {
                       Read More
                     </Link>
                   </div>
-                </div>
+                </article>
               </div>
             ))}
           </div>
-          <button className="btn btn-load-more" onClick={this.loadMore}>
-            Load More
-          </button>
+
+          {this.props.nomore ? (
+            ""
+          ) : (
+            <div className="text-center">
+              <Button
+                variant="contained"
+                color="secondary"
+                className="btn-load-more"
+                onClick={this.loadMore}
+              >
+                Load More
+              </Button>
+            </div>
+          )}
         </div>
       </section>
     );
@@ -95,6 +107,7 @@ function mapStateToProps(state) {
     blogs: state.blogs.latestItems,
     start: state.blogs.start,
     size: state.blogs.size,
+    nomore: state.blogs.nomore,
   };
 }
 export default connect(mapStateToProps, {

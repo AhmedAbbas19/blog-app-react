@@ -35,7 +35,7 @@ class HotBlogs extends Component {
     return (
       <section className="hot-blogs">
         <div
-          className="blog left-blog"
+          className="blog left-blog sm-12"
           style={{
             backgroundImage: `url('${
               leftBlog.image
@@ -72,7 +72,7 @@ class HotBlogs extends Component {
         </div>
 
         <div
-          className="blog mid-blog"
+          className="blog mid-blog sm-12"
           style={{
             backgroundImage: `url('${
               midBlog.image
@@ -105,7 +105,7 @@ class HotBlogs extends Component {
           </div>
         </div>
 
-        <div className="right-blogs">
+        <div className="right-blogs sm-vanished">
           <div
             className="blog right-top"
             style={{

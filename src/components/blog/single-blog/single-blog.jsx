@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { followUser } from "../../../actions/userActions";
 import { setAuthUser, authfollowers } from "../../../actions/authActions";
 import { BACKEND_URL } from "../../../config";
+import { Button, Fab, Chip, Avatar } from "@material-ui/core";
+import { Edit, Delete } from "@material-ui/icons";
 
 class SingleBlog extends Component {
   state = {
@@ -60,6 +62,7 @@ class SingleBlog extends Component {
   render() {
     const { blog, loaded } = this.state;
     const { auth } = this.props;
+    const logged = !!auth.activeUser._id;
 
     if (!loaded) {
       return (
@@ -81,10 +84,9 @@ class SingleBlog extends Component {
             <h2 className="blog-title">{blog.title}</h2>
             <div className="blog-meta">
               <div className="blog-author">
-                <img
-                  src={blog.author.imageUrl || "/imgs/anonymous-user.png"}
+                <Avatar
                   alt=""
-                  className="thumb"
+                  src={blog.author.imageUrl || "/imgs/anonymous-user.png"}
                 />
                 <Link
                   to={`/profile/${blog.author.username}`}
@@ -97,11 +99,13 @@ class SingleBlog extends Component {
                 </span>
               </div>
               <ul className="blog-control">
-                {auth.activeUser && auth.activeUser._id === blog.author._id ? (
+                {logged && auth.activeUser._id === blog.author._id ? (
                   <Fragment>
                     <li className="icon-edit">
                       <Link className="link" to={`/edit-blog/${blog._id}`}>
-                        <i className="far fa-edit"></i>
+                        <Fab color="primary" aria-label="add" size="medium">
+                          <Edit />
+                        </Fab>
                       </Link>
                     </li>
                     <li className="icon-delete">
@@ -109,14 +113,22 @@ class SingleBlog extends Component {
                         className="link"
                         onClick={() => this.deleteMyBlog(blog._id)}
                       >
-                        <i className="far fa-trash-alt"></i>
+                        <Fab color="secondary" aria-label="add" size="medium">
+                          <Delete />
+                        </Fab>
                       </span>
                     </li>
                   </Fragment>
-                ) : auth.activeUser.followers ? (
+                ) : (
+                  ""
+                )}
+
+                {logged && auth.activeUser._id !== blog.author._id ? (
+                  auth.activeUser.followers &&
                   auth.activeUser.followers.includes(blog.author._id) ? (
-                    <button
-                      className="btn btn-follow"
+                    <Button
+                      variant="contained"
+                      color="secondary"
                       onClick={() =>
                         this.followMe(
                           auth.activeUser._id,
@@ -126,10 +138,11 @@ class SingleBlog extends Component {
                       }
                     >
                       Unfollow
-                    </button>
+                    </Button>
                   ) : (
-                    <button
-                      className="btn btn-follow"
+                    <Button
+                      variant="contained"
+                      color="secondary"
                       onClick={() =>
                         this.followMe(
                           auth.activeUser._id,
@@ -139,7 +152,7 @@ class SingleBlog extends Component {
                       }
                     >
                       Follow
-                    </button>
+                    </Button>
                   )
                 ) : (
                   ""
@@ -166,9 +179,9 @@ class SingleBlog extends Component {
             {blog.tags.length ? <h3>Tags</h3> : ``}
             <ul>
               {blog.tags.map((tag) => (
-                <li key={tag}>
-                  <Link to={`/tags?title=${tag}`}>{tag}</Link>
-                </li>
+                <Link to={`/tags?title=${tag}`} key={tag}>
+                  <Chip label={tag} key={tag} style={{ margin: "4px" }} />
+                </Link>
               ))}
             </ul>
           </div>

@@ -8,6 +8,18 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import joi from "joi-browser";
 import { toast } from "react-toastify";
+import {
+  makeStyles,
+  Grid,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Chip,
+} from "@material-ui/core";
+import { DropzoneArea } from "material-ui-dropzone";
 
 const MyEditor = (props) => {
   const initBlog = {
@@ -98,82 +110,111 @@ const MyEditor = (props) => {
     }
   };
 
-  const imageChange = ({ target }) => {
-    setBlogImage(target.files[0]);
+  const imageChange = (target) => {
+    setBlogImage(target[0]);
   };
 
   const editorChange = (value) => {
     setBlogBody(value);
   };
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    inputField: {
+      width: "100%",
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    button: {
+      margin: theme.spacing(1),
+    },
+  }));
+  const classes = useStyles();
+
   return (
     <div className="my-editor">
       <div className="editor-form">
         <form onSubmit={onSubmit}>
-          <label htmlFor="title" className="label">
-            Blog Title
-          </label>
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className="form-control"
-            value={blog.title}
-            onChange={changeHandler}
-          />
+          <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="Blog Title"
+                  name="title"
+                  value={blog.title}
+                  onChange={changeHandler}
+                />
+              </Grid>
 
-          <label className="label">Blog Content</label>
-          <ReactQuill
-            theme="snow"
-            value={blogBody}
-            name="body"
-            onChange={editorChange}
-          />
-
-          <label htmlFor="category" className="label">
-            Category
-          </label>
-          <select
-            name="category"
-            id="category"
-            className="form-control"
-            value={blog.category || ""}
-            onChange={changeHandler}
-          >
-            <option value="" disabled>
-              Choose Category
-            </option>
-            {props.categories.map((cat) => (
-              <option value={`${cat._id}`} key={cat._id}>
-                {cat.title}
-              </option>
-            ))}
-          </select>
-
-          <label htmlFor="tags" className="label">
-            Tags
-          </label>
-          <input
-            type="text"
-            name="tags"
-            id="tags"
-            className="form-control"
-            placeholder="press enter to add"
-            onKeyPress={addTagHandler}
-          />
-
-          <div className="tags">
-            {blog.tags.map((tag) => (
-              <li className="tag" key={tag}>
-                {tag}
-              </li>
-            ))}
+              <ReactQuill
+                theme="snow"
+                value={blogBody}
+                name="body"
+                onChange={editorChange}
+              />
+              <Grid item xs={6}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="demo-simple-select-label">
+                    Category
+                  </InputLabel>
+                  <Select
+                    className={classes.inputField}
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="category"
+                    value={blog.category || ""}
+                    onChange={changeHandler}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Category
+                    </MenuItem>
+                    {props.categories.map((cat) => (
+                      <MenuItem value={cat._id} key={cat._id}>
+                        {cat.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  label="Tags"
+                  id="standard-tags"
+                  name="tags"
+                  onKeyPress={addTagHandler}
+                />
+                {blog.tags.map((tag) => (
+                  <Chip label={tag} key={tag} style={{ margin: "4px" }} />
+                ))}
+              </Grid>
+              <Grid item xs={12}>
+                <InputLabel id="thumbnail">Blog Image</InputLabel>
+                <DropzoneArea
+                  labelId="thumbnail"
+                  name="image"
+                  onChange={imageChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  className={classes.button}
+                  type="submit"
+                >
+                  {mode === "add" ? "Save" : "Edit"}
+                </Button>
+              </Grid>
+            </Grid>
           </div>
-          <div className="thumbnail">
-            <label className="label">Blog thumbnail</label>
-            <input type="file" name="image" onChange={imageChange} />
-          </div>
-          <button className="btn">{mode === "add" ? "Post" : "Edit"}</button>
         </form>
       </div>
     </div>

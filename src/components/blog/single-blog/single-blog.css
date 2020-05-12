@@ -76,15 +76,6 @@
   display: table-cell;
   vertical-align: middle;
 }
-.single-blog .blog-control .icon-edit {
-  background: #f7d931;
-}
-.single-blog .blog-control .icon-delete {
-  background: #f76931;
-}
-.single-blog .btn-follow {
-  background: #ff5722;
-}
 
 .single-blog .blog-body img {
   width: 100%;

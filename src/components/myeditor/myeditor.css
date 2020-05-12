@@ -4,8 +4,7 @@
   justify-content: space-between;
 }
 .editor-form {
-  width: 60%;
-  padding: 20px;
+  margin: 0 auto;
 }
 .thumbnail {
   width: 33%;
@@ -21,6 +20,7 @@
 .ql-container {
   background: #fff;
   height: 250px;
+  width: 100%;
 }
 .label {
   font-weight: 700;

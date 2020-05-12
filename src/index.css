@@ -46,22 +46,35 @@ a:focus {
 .text-center {
   text-align: center;
 }
-
-.alert {
-  background: #ff4646;
-  color: #fff;
-  padding: 8px;
-  border-radius: 4px;
-  width: 50%;
-}
-.alert-danger {
-  background: #ff4646;
-  color: #fff;
-}
 input {
   outline: none;
 }
-.btn {
+
+@media (max-width: 767px) {
+  .sm-12 {
+    width: 100% !important;
+  }
+  .sm-6 {
+    width: 50% !important;
+  }
+  .container-narrow,
+  .container {
+    padding: 0 15px;
+  }
+  .sm-vanished {
+    display: none;
+  }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .md-12 {
+    width: 100% !important;
+  }
+  .md-6 {
+    width: 50% !important;
+  }
+}
+
+/* .btn {
   background: #2282ff;
   border: 0;
   padding: 10px 20px;
@@ -73,7 +86,7 @@ input {
   cursor: pointer;
   outline: none;
   display: block;
-}
+} */
 .lds-ripple {
   display: inline-block;
   position: relative;
