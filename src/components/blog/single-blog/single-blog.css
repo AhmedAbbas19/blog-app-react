@@ -85,3 +85,7 @@
 .single-blog .btn-follow {
   background: #ff5722;
 }
+
+.single-blog .blog-body img {
+  width: 100%;
+}
