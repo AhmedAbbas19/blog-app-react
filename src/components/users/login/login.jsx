@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { userLogin } from "../../../actions/userActions";
 import { connect } from "react-redux";
 import { setAuthUser } from "../../../actions/authActions";
+import { TextField, Grid, makeStyles, Button } from "@material-ui/core";
 
 const Login = (props) => {
   const initUser = {
@@ -60,30 +61,48 @@ const Login = (props) => {
     return joi.validate(input, inputSchema);
   };
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    inputField: {
+      width: "100%",
+    },
+  }));
+  const classes = useStyles();
   return (
     <section className="myForm">
       <div className="container-narrow text-center">
         <h2 className="h1">Login</h2>
         <form onSubmit={onSubmit}>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            value={user.email}
-            name="email"
-            onChange={changeHandler}
-          />
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            value={user.password}
-            name="password"
-            onChange={changeHandler}
-          />
-          <button type="submit" className="btn">
-            Login
-          </button>
+          <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  label="Email"
+                  name="email"
+                  value={user.email}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  type="password"
+                  label="Password"
+                  name="password"
+                  value={user.password}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" color="primary" type="submit">
+                  Login
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
         </form>
       </div>
     </section>

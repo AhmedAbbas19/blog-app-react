@@ -7,7 +7,7 @@ export class Footer extends Component {
       <div className="footer">
         <div className="container">
           <div className="widgets">
-            <div className="widget">
+            <div className="widget sm-12">
               <div className="widget-container">
                 <h3 className="title">About me</h3>
                 <p className="paragraph">
@@ -18,7 +18,7 @@ export class Footer extends Component {
                 </p>
               </div>
             </div>
-            <div className="widget">
+            <div className="widget sm-12">
               <div className="widget-container">
                 <h3 className="title">Important Links</h3>
                 <p className="paragraph">
@@ -29,7 +29,7 @@ export class Footer extends Component {
                 </p>
               </div>
             </div>
-            <div className="widget">
+            <div className="widget sm-12">
               <div className="widget-container">
                 <h3 className="title">Contact Info</h3>
                 <p className="paragraph">

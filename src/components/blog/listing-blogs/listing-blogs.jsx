@@ -12,7 +12,7 @@ export default class ListingBlogs extends Component {
   render() {
     const { blogs, title } = this.props;
     return (
-      <div className="list-blogs">
+      <div className="list-blogs sm-12">
         <h2 className="heading">{capitalize(title)}</h2>
         {blogs.map((blog) => (
           <div className="blog" key={blog._id}>

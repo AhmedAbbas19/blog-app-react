@@ -6,7 +6,7 @@ export default class BlogEditor extends Component {
   render() {
     return (
       <section className="blog-editor">
-        <div className="container">
+        <div className="container-narrow">
           <MyEditor />
         </div>
       </section>

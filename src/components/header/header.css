@@ -115,12 +115,7 @@ header .social-icons i {
 
 .add-blog {
   position: fixed;
-  background: #ff5722;
-  color: #fff;
-  border-radius: 32px;
-  padding: 15px 19px;
   bottom: 40px;
-  font-size: 18px;
   right: 40px;
   z-index: 999;
 }

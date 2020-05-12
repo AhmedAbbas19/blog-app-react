@@ -3,6 +3,7 @@ import "./register.css";
 import joi from "joi-browser";
 import { toast } from "react-toastify";
 import { addUser } from "../../../actions/userActions";
+import { makeStyles, Grid, TextField, Button } from "@material-ui/core";
 
 const Register = (props) => {
   const initUser = {
@@ -22,7 +23,7 @@ const Register = (props) => {
     username: joi.string().required().min(5).max(20),
     email: joi.string().required().email(),
     password: joi.string().required().min(7).max(30),
-    about: joi.string().optional().max(200),
+    about: joi.string().valid("").optional().max(200),
   };
 
   const onSubmit = async (e) => {
@@ -61,67 +62,93 @@ const Register = (props) => {
     return joi.validate(input, inputSchema);
   };
 
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+    },
+    inputField: {
+      width: "100%",
+    },
+  }));
+  const classes = useStyles();
+
   return (
     <section className="myForm">
       <div className="container-narrow text-center">
         <h2 className="h1">Sign Up</h2>
         <form onSubmit={onSubmit}>
-          <input
-            type="text"
-            className="form-control control-6"
-            placeholder="First Name"
-            value={user.fname}
-            name="fname"
-            onChange={changeHandler}
-          />
-          <input
-            type="text"
-            className="form-control control-6"
-            placeholder="Last Name"
-            value={user.lname}
-            name="lname"
-            onChange={changeHandler}
-          />
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Username"
-            value={user.username}
-            name="username"
-            onChange={changeHandler}
-          />
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            value={user.email}
-            name="email"
-            onChange={changeHandler}
-          />
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            value={user.password}
-            name="password"
-            onChange={changeHandler}
-          />
-          <br />
-          <textarea
-            cols="30"
-            rows="10"
-            className="form-control"
-            placeholder="About You"
-            value={user.about}
-            name="about"
-            onChange={changeHandler}
-          ></textarea>
-          <input type="checkbox" value="true" style={{ margin: "17px" }} />I
-          have read and agree to the <a href="termsOfUse.html">Terms of Use.</a>
-          <br />
-          <button type="submit" className="btn">
-            SignUp
-          </button>
+          <div className={classes.root}>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="First Name"
+                  name="fname"
+                  value={user.fname}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="Last Name"
+                  name="lname"
+                  value={user.lname}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="Username"
+                  name="username"
+                  value={user.username}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="Email"
+                  name="email"
+                  value={user.email}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-required"
+                  label="password"
+                  name="password"
+                  type="password"
+                  value={user.password}
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  className={classes.inputField}
+                  id="standard-multiline-static"
+                  label="About You"
+                  multiline
+                  rows={4}
+                  value={user.about}
+                  name="about"
+                  onChange={changeHandler}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" color="primary" type="submit">
+                  Signup
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
         </form>
       </div>
     </section>

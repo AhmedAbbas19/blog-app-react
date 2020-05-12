@@ -5,6 +5,8 @@ import { removeAuthUser, setAuthUser } from "../../actions/authActions";
 import { getUserByUsername } from "../../actions/userActions";
 import "./header.css";
 import { connect } from "react-redux";
+import { Fab } from "@material-ui/core";
+import { AddCircle } from "@material-ui/icons";
 
 class Header extends Component {
   state = {
@@ -51,8 +53,10 @@ class Header extends Component {
       <header>
         {auth.isAuthenticated ? (
           <div className="add-blog">
-            <Link to="add-blog">
-              <i className="fas fa-plus"></i>
+            <Link to="/add-blog">
+              <Fab color="secondary" aria-label="add">
+                <AddCircle />
+              </Fab>
             </Link>
           </div>
         ) : (
@@ -98,19 +102,19 @@ class Header extends Component {
         )}
         <div className="header__top">
           <div className="container">
-            <ul className="social-icons">
+            <ul className="social-icons sm-12">
               <i className="fab fa-facebook-f"></i>
               <i className="fab fa-twitter"></i>
               <i className="fab fa-youtube"></i>
               <i className="fab fa-slack"></i>
               <i className="fab fa-linkedin"></i>
             </ul>
-            <h1 className="title">
+            <h1 className="title sm-12">
               <Link to="/">
                 Blog<span>arena</span>
               </Link>
             </h1>
-            <div className="header__right">
+            <div className="header__right sm-12">
               <div className="nav-right">
                 {auth.isAuthenticated ? (
                   <Fragment>

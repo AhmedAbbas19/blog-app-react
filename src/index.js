@@ -1,18 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
-import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { Index } from "./components/index";
+import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./components/scroll-to-top/scroll-to-top";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
+        <ScrollToTop />
         <Index />
       </BrowserRouter>
     </Provider>
