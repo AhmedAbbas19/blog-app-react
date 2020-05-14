@@ -23,7 +23,7 @@ const Register = (props) => {
     username: joi.string().required().min(5).max(20),
     email: joi.string().required().email(),
     password: joi.string().required().min(7).max(30),
-    about: joi.string().valid("").optional().max(200),
+    about: joi.string().allow("").max(200),
   };
 
   const onSubmit = async (e) => {
@@ -38,7 +38,13 @@ const Register = (props) => {
         props.history.push("/login");
       } catch (e) {
         if (e.response) {
-          toast.error(e.response.data.message);
+          if (e.response.data.code === 11000) {
+            toast.error(
+              `${Object.keys(e.response.data.keyValue)[0]} already exists`
+            );
+          } else {
+            toast.error(e.response.data.message);
+          }
         }
       }
     }
@@ -79,7 +85,7 @@ const Register = (props) => {
         <form onSubmit={onSubmit}>
           <div className={classes.root}>
             <Grid container spacing={3}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   id="standard-required"
@@ -89,7 +95,7 @@ const Register = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   id="standard-required"
@@ -99,7 +105,7 @@ const Register = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   className={classes.inputField}
                   id="standard-required"
@@ -109,7 +115,7 @@ const Register = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   id="standard-required"
@@ -119,7 +125,7 @@ const Register = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   id="standard-required"
@@ -130,7 +136,7 @@ const Register = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} md={12}>
                 <TextField
                   className={classes.inputField}
                   id="standard-multiline-static"
