@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import Header from "../header/header";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Footer } from "../footer/footer";
+import Footer from "../footer/footer";
 import { Home } from "../home/home";
 import ListBlogs from "../blog/list-blogs/list-blogs";
 import Profile from "../users/profile/profile";

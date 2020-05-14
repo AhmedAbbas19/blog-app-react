@@ -85,6 +85,13 @@
   padding: 15px;
 }
 
+@media (max-width: 768px) {
+  .hot-blogs .info-card {
+    padding: 8px;
+    width: 300px;
+  }
+}
+
 .layover {
   position: absolute;
   background: rgba(0, 0, 0, 0.1);

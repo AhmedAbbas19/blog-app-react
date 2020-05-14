@@ -13,6 +13,9 @@
 .thumbnail img {
   width: 100%;
 }
+.quill {
+  max-width: 100%;
+}
 .ql-toolbar {
   background: rgb(240, 239, 239);
   margin-top: 10px;

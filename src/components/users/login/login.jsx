@@ -77,7 +77,7 @@ const Login = (props) => {
         <form onSubmit={onSubmit}>
           <div className={classes.root}>
             <Grid container spacing={3}>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   label="Email"
@@ -86,7 +86,7 @@ const Login = (props) => {
                   onChange={changeHandler}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} md={6}>
                 <TextField
                   className={classes.inputField}
                   type="password"

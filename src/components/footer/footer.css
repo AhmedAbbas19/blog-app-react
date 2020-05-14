@@ -3,14 +3,7 @@
   color: #fff;
   padding: 64px 0;
 }
-.footer .widgets {
-  display: flex;
-  justify-content: space-between;
-}
-.footer .widget {
-  padding: 0 18px;
-  width: 33.33%;
-}
+
 .footer .widget .title {
   margin: 18px 0;
 }

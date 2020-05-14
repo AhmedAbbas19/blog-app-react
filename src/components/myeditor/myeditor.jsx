@@ -54,13 +54,16 @@ const MyEditor = (props) => {
   const schema = {
     title: joi.string().required().min(10).max(70),
     body: joi.string().required().min(200),
+    category: joi.string().required(),
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
     setBlog({ ...blog, body: blogBody });
-    let _errors = joi.validate({ title: blog.title, body: blogBody }, schema)
-      .error;
+    let _errors = joi.validate(
+      { title: blog.title, body: blogBody, category: blog.category },
+      schema
+    ).error;
     if (_errors) {
       toast.error(_errors.details[0].message);
     } else {
@@ -152,12 +155,15 @@ const MyEditor = (props) => {
                 />
               </Grid>
 
-              <ReactQuill
-                theme="snow"
-                value={blogBody}
-                name="body"
-                onChange={editorChange}
-              />
+              <Grid item xs={12}>
+                <ReactQuill
+                  theme="snow"
+                  value={blogBody}
+                  name="body"
+                  onChange={editorChange}
+                />
+              </Grid>
+
               <Grid item xs={6}>
                 <FormControl className={classes.formControl}>
                   <InputLabel id="demo-simple-select-label">
