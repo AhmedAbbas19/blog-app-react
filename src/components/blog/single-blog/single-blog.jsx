@@ -13,8 +13,7 @@ import { followUser } from "../../../actions/userActions";
 import { setAuthUser, authfollowers } from "../../../actions/authActions";
 import { BACKEND_URL } from "../../../config";
 import { Button, Fab, Chip, Avatar } from "@material-ui/core";
-import { Edit, Delete, Palette } from "@material-ui/icons";
-import { deepOrange } from "@material-ui/core/colors";
+import { Edit, Delete } from "@material-ui/icons";
 
 class SingleBlog extends Component {
   state = {
