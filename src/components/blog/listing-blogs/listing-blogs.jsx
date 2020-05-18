@@ -46,7 +46,7 @@ export default class ListingBlogs extends Component {
                   ""
                 )}
                 <p className="paragraph">
-                  {sanitizeHtml(blog.body.slice(0, 230))}
+                  {sanitizeHtml(blog.body.slice(0, 170))}
                   {blog.body.length > 230 ? "..." : ""}
                 </p>
                 <Link className="read-more" to={`/blog/${blog.slug}`}>
