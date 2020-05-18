@@ -14,6 +14,7 @@ export default class ListingBlogs extends Component {
     return (
       <div className="list-blogs sm-12">
         <h2 className="heading">{capitalize(title)}</h2>
+        {!blogs.length ? "No blogs to show!" : ""}
         {blogs.map((blog) => (
           <div className="blog" key={blog._id}>
             <div className="thumb">

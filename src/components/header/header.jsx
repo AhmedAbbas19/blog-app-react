@@ -156,10 +156,7 @@ class Header extends Component {
                 <Link to="/about">About</Link>
               </li>
               <li>
-                <Link to="/comming-soon">Contacts</Link>
-              </li>
-              <li>
-                <Link to="/comming-soon">FAQ</Link>
+                <Link to="/followed">What followers say!</Link>
               </li>
             </ul>
           </div>
