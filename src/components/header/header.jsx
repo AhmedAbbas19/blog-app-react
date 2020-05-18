@@ -155,9 +155,13 @@ class Header extends Component {
               <li>
                 <Link to="/about">About</Link>
               </li>
-              <li>
-                <Link to="/followed">What followers say!</Link>
-              </li>
+              {auth.isAuthenticated ? (
+                <li>
+                  <Link to="/followed">What followers say!</Link>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
         </nav>
