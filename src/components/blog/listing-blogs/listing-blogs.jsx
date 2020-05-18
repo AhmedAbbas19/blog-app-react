@@ -17,7 +17,7 @@ export default class ListingBlogs extends Component {
         {!blogs.length ? "No blogs to show!" : ""}
         {blogs.map((blog) => (
           <div className="blog" key={blog._id}>
-            <div className="thumb">
+            <div className="thumb sm-12">
               <img
                 src={
                   blog.image
@@ -27,7 +27,7 @@ export default class ListingBlogs extends Component {
                 alt=""
               />
             </div>
-            <div className="info-card">
+            <div className="info-card sm-12">
               <div className="card-container">
                 <Link className="title" to={`/blog/${blog.slug}`}>
                   {blog.title}

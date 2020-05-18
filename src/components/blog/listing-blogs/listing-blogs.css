@@ -8,7 +8,6 @@
   flex-wrap: wrap;
   background: #fff;
   margin-bottom: 28px;
-  max-height: 255px;
 }
 .list-blogs .thumb {
   width: 40%;
@@ -17,6 +16,7 @@
 
 .list-blogs .info-card {
   width: 60%;
+  max-height: 255px;
 }
 .list-blogs img {
   width: 100%;
