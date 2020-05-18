@@ -13,6 +13,9 @@ import {
 import { Button } from "@material-ui/core";
 
 class LatestBlogs extends Component {
+  state = {
+    btnClicked: false,
+  };
   componentDidMount() {
     if (this.props.blogs.length === 0) {
       this.props.fetchLatestBlogs(this.props.start, this.props.size);
@@ -21,7 +24,13 @@ class LatestBlogs extends Component {
       this.props.fetchLatestBlogs(4, this.props.start - 4);
     }
   }
+  componentWillReceiveProps(prev) {
+    if (prev.blogs.length > this.props.blogs.length) {
+      this.setState({ btnClicked: false });
+    }
+  }
   loadMore = () => {
+    this.setState({ btnClicked: true });
     this.props.fetchMoreLatestBlogs(this.props.start, this.props.size);
   };
 
@@ -91,6 +100,7 @@ class LatestBlogs extends Component {
                 color="secondary"
                 className="btn-load-more"
                 onClick={this.loadMore}
+                disabled={this.state.btnClicked}
               >
                 Load More
               </Button>

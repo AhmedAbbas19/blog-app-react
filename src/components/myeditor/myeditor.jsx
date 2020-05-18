@@ -32,6 +32,7 @@ const MyEditor = (props) => {
   const [mode, setMode] = useState("add");
   const [blogBody, setBlogBody] = useState("");
   const [blogImage, setBlogImage] = useState("");
+  const [btnClicked, setBtnClicked] = useState(false);
 
   useEffect(() => {
     props.fetchCategories();
@@ -68,6 +69,7 @@ const MyEditor = (props) => {
       toast.error(_errors.details[0].message);
     } else {
       if (mode === "add") {
+        setBtnClicked(true);
         blog.author = props.auth.activeUser._id;
         blog.body = blogBody;
         addBlog(blog, blogImage)
@@ -76,17 +78,20 @@ const MyEditor = (props) => {
             props.history.push("/");
           })
           .catch((e) => {
+            setBtnClicked(false);
             if (e.response) {
               toast.error(e.response.data.message);
             }
           });
       } else {
+        setBtnClicked(true);
         editBlog(blog, blogImage)
           .then((response) => {
             toast.success(response.data.message);
             props.history.push("/");
           })
           .catch((e) => {
+            setBtnClicked(false);
             if (e.response) {
               toast.error(e.response.data.message);
             }
@@ -215,6 +220,7 @@ const MyEditor = (props) => {
                   size="large"
                   className={classes.button}
                   type="submit"
+                  disabled={btnClicked}
                 >
                   {mode === "add" ? "Save" : "Edit"}
                 </Button>
