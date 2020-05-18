@@ -98,7 +98,13 @@ export function sanitizeHtml(strInputCode) {
 }
 
 export function getBlogImageUrl(imageBuffer) {
-  return `data:image/jpg;base64,${btoa(
-    String.fromCharCode.apply(null, new Uint8Array(imageBuffer))
-  )}`;
+  try {
+    return `data:image/jpg;base64,${btoa(
+      new Uint8Array(imageBuffer).reduce(function (data, byte) {
+        return data + String.fromCharCode(byte);
+      }, "")
+    )}`;
+  } catch (error) {
+    console.log(error);
+  }
 }
