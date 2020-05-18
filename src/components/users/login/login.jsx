@@ -13,6 +13,7 @@ const Login = (props) => {
   };
   const [user, setUser] = useState(initUser);
   const [errors, setErrors] = useState({});
+  const [btnClicked, setBtnClicked] = useState(false);
 
   useEffect(() => {
     if (props.auth.activeUser._id) {
@@ -32,12 +33,14 @@ const Login = (props) => {
     if (_errors) {
       toast.error(_errors.details[0].message);
     } else {
+      setBtnClicked(true);
       const login = await userLogin(user);
       if (login.data) {
         props.setAuthUser(login.data.user);
         toast.success(login.data.message);
         props.history.push("/home");
       } else {
+        setBtnClicked(false);
         toast.error(login.response.data.message);
       }
     }
@@ -97,7 +100,12 @@ const Login = (props) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" type="submit">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={btnClicked}
+                >
                   Login
                 </Button>
               </Grid>

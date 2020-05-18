@@ -16,6 +16,7 @@ const Register = (props) => {
   };
   const [user, setUser] = useState(initUser);
   const [errors, setErrors] = useState({});
+  const [btnClicked, setBtnClicked] = useState(false);
 
   const schema = {
     fname: joi.string().required().min(2).max(10),
@@ -33,10 +34,12 @@ const Register = (props) => {
       toast.error(_errors.details[0].message);
     } else {
       try {
+        setBtnClicked(true);
         const response = await addUser(user);
         toast.success(response.data.message);
         props.history.push("/login");
       } catch (e) {
+        setBtnClicked(false);
         if (e.response) {
           if (e.response.data.code === 11000) {
             toast.error(
@@ -149,7 +152,12 @@ const Register = (props) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" type="submit">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  disabled={btnClicked}
+                >
                   Signup
                 </Button>
               </Grid>
