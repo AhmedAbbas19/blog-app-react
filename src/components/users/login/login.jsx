@@ -74,7 +74,7 @@ const Login = (props) => {
     <section className="myForm">
       <div className="container-narrow text-center">
         <h2 className="h1">Login</h2>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className="form-container">
           <div className={classes.root}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={6}>

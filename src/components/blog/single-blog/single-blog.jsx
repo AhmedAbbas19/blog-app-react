@@ -13,7 +13,8 @@ import { followUser } from "../../../actions/userActions";
 import { setAuthUser, authfollowers } from "../../../actions/authActions";
 import { BACKEND_URL } from "../../../config";
 import { Button, Fab, Chip, Avatar } from "@material-ui/core";
-import { Edit, Delete } from "@material-ui/icons";
+import { Edit, Delete, Palette } from "@material-ui/icons";
+import { deepOrange } from "@material-ui/core/colors";
 
 class SingleBlog extends Component {
   state = {
@@ -63,7 +64,6 @@ class SingleBlog extends Component {
     const { blog, loaded } = this.state;
     const { auth } = this.props;
     const logged = !!auth.activeUser._id;
-
     if (!loaded) {
       return (
         <div className="container text-center">
@@ -84,10 +84,10 @@ class SingleBlog extends Component {
             <h2 className="blog-title">{blog.title}</h2>
             <div className="blog-meta">
               <div className="blog-author">
-                <Avatar
-                  alt=""
-                  src={blog.author.imageUrl || "/imgs/anonymous-user.png"}
-                />
+                <Avatar>
+                  {blog.author.fname[0]}
+                  {blog.author.lname[0]}
+                </Avatar>
                 <Link
                   to={`/profile/${blog.author.username}`}
                   className="author-name"
@@ -161,16 +161,16 @@ class SingleBlog extends Component {
             </div>
           </div>
         </div>
-        <div className="blog-img">
-          <img
-            src={
+        <div
+          className="blog-img"
+          style={{
+            backgroundImage: `url('${
               blog.image
                 ? getBlogImageUrl(blog.image.data)
                 : "/imgs/no-image.jpg"
-            }
-            alt=""
-          />
-        </div>
+            }')`,
+          }}
+        ></div>
         <div className="container-narrow">
           <div className="blog-body">
             <div dangerouslySetInnerHTML={{ __html: blog.body }} />

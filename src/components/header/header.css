@@ -111,6 +111,11 @@ header .social-icons i {
 .navbar li {
   display: inline-block;
   padding: 24px;
+  transition: all 0.5s ease;
+  border-bottom: 3px solid #fff;
+}
+.navbar li:hover {
+  border-bottom: 3px solid #ff5722;
 }
 
 .add-blog {

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Header from "../header/header";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Footer from "../footer/footer";
 import { Home } from "../home/home";
 import ListBlogs from "../blog/list-blogs/list-blogs";
 import Profile from "../users/profile/profile";
@@ -14,6 +13,7 @@ import Register from "../users/register/register";
 import Login from "../users/login/login";
 import RouteGuard from "../route-guard/route-guard";
 import CommingSoon from "../comming-soon/comming-soon";
+import Followed from "../blog/followed/followed";
 export class Index extends Component {
   render() {
     return (
@@ -27,6 +27,7 @@ export class Index extends Component {
           <RouteGuard path="/edit-blog/:id" component={BlogEditor} />
           <RouteGuard path="/search" component={SearchResult} />
           <Route path="/register" component={Register} />
+          <RouteGuard path="/followed" component={Followed} />
           <Route path="/login" component={Login} />
           <Route path="/comming-soon" component={CommingSoon} />
           <RouteGuard path="/profile/:username" component={Profile} />
@@ -35,7 +36,6 @@ export class Index extends Component {
           <Route path="/not-found" component={NotFound} />
           <Redirect to="/not-found" />
         </Switch>
-        <Footer />
         <ToastContainer />
       </Fragment>
     );
