@@ -11,12 +11,10 @@
 }
 .list-blogs .thumb {
   width: 40%;
-  max-height: 255px;
 }
 
 .list-blogs .info-card {
   width: 60%;
-  max-height: 255px;
 }
 .list-blogs img {
   width: 100%;
