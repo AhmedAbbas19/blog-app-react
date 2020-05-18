@@ -35,6 +35,12 @@
   background-size: cover;
   background-position: center;
 }
+@media (max-width: 767px) {
+  .single-blog .blog-img {
+    height: 40vh;
+    margin-top: 22px;
+  }
+}
 .single-blog .blog-body {
   font-family: "Roboto";
   margin: 32px 0;
