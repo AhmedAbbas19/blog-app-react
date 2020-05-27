@@ -8,6 +8,7 @@ import {
   getBlogImageUrl,
 } from "../../../actions/blogActions";
 import { capitalize } from "../../../actions/utilActions";
+import { LinearProgress } from "@material-ui/core";
 
 class HotBlogs extends Component {
   state = {
@@ -23,14 +24,7 @@ class HotBlogs extends Component {
   render() {
     let [leftBlog, midBlog, rTopBlog, rBottomBlog] = this.props.blogs;
     if (!this.props.blogs.length) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     return (
       <section className="hot-blogs">
@@ -105,9 +99,9 @@ class HotBlogs extends Component {
           </div>
         </div>
 
-        <div className="right-blogs sm-vanished">
+        <div className="right-blogs sm-12">
           <div
-            className="blog right-top"
+            className="blog right-top sm-12"
             style={{
               backgroundImage: `url('${
                 rTopBlog.image
@@ -135,7 +129,7 @@ class HotBlogs extends Component {
             </div>
           </div>
           <div
-            className="blog right-bottom"
+            className="blog right-bottom sm-12"
             style={{
               backgroundImage: `url('${
                 rBottomBlog.image

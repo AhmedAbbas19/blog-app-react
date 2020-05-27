@@ -31,17 +31,17 @@ const Login = (props) => {
     e.preventDefault();
     let _errors = joi.validate(user, schema).error;
     if (_errors) {
-      toast.error(_errors.details[0].message);
+      toast.error(_errors.details[0].message, { toastId: 0 });
     } else {
       setBtnClicked(true);
       const login = await userLogin(user);
       if (login.data) {
         props.setAuthUser(login.data.user);
-        toast.success(login.data.message);
+        toast.success(login.data.message, { toastId: 1 });
         props.history.push("/home");
       } else {
         setBtnClicked(false);
-        toast.error(login.response.data.message);
+        toast.error(login.response.data.message, { toastId: 2 });
       }
     }
   };

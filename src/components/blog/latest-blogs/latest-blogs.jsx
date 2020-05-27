@@ -10,7 +10,7 @@ import {
   getDateString,
   getBlogImageUrl,
 } from "../../../actions/blogActions";
-import { Button } from "@material-ui/core";
+import { Button, LinearProgress } from "@material-ui/core";
 
 class LatestBlogs extends Component {
   state = {
@@ -37,14 +37,7 @@ class LatestBlogs extends Component {
   render() {
     const { blogs } = this.props;
     if (!blogs.length) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     return (
       <section className="latest-blogs">
@@ -102,7 +95,7 @@ class LatestBlogs extends Component {
                 onClick={this.loadMore}
                 disabled={this.state.btnClicked}
               >
-                Load More
+                {this.state.btnClicked ? "Loading..." : "Load More"}
               </Button>
             </div>
           )}

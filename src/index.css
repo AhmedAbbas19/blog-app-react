@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Merienda:wght@700&family=Poppins&family=Roboto:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Merienda:wght@700&family=Roboto:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@1,400;1,600&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amiri:ital@1&display=swap");
 
 * {
   margin: 0;
@@ -9,12 +8,10 @@
 
 body {
   margin: 0;
-  /* font-family: "Roboto", sans-serif; */
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: #f9f9ff;
-  line-break: anywhere;
 }
 
 code {
@@ -51,11 +48,11 @@ input {
 }
 
 pre {
-    white-space: pre-wrap;       /* Since CSS 2.1 */
-    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+  white-space: pre-wrap; /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
 }
 
 @media (max-width: 767px) {
@@ -82,19 +79,6 @@ pre {
   }
 }
 
-/* .btn {
-  background: #2282ff;
-  border: 0;
-  padding: 10px 20px;
-  color: #fff;
-  font-size: 16px;
-  border-radius: 5px;
-  letter-spacing: 0.8px;
-  margin-top: 22px;
-  cursor: pointer;
-  outline: none;
-  display: block;
-} */
 .lds-ripple {
   display: inline-block;
   position: relative;

@@ -7,6 +7,7 @@ import { getDateString } from "../../../actions/blogActions";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { BACKEND_URL } from "../../../config";
+import { LinearProgress } from "@material-ui/core";
 
 class Profile extends Component {
   state = {
@@ -32,14 +33,7 @@ class Profile extends Component {
   render() {
     const { user, loaded } = this.state;
     if (!loaded) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     if (!user) {
       return <Redirect to="/not-found" />;

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ListingBlogs from "../listing-blogs/listing-blogs";
 import { fetchLatestBlogs } from "../../../actions/blogActions";
 import { connect } from "react-redux";
+import { LinearProgress } from "@material-ui/core";
 
 class Followed extends Component {
   componentDidMount() {
@@ -13,14 +14,7 @@ class Followed extends Component {
     const { activeUser } = this.props.auth;
 
     if (!blogs.length) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     } else {
       filteredBlogs = blogs.filter((b) =>
         activeUser.followers.includes(b.author._id)

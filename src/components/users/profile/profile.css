@@ -11,6 +11,12 @@
   display: block;
 }
 
+@media (max-width: 768px) {
+  .profile .thumb {
+    display: none;
+  }
+}
+
 .profile .info-card {
   width: 80%;
 }

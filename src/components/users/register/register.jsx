@@ -31,22 +31,23 @@ const Register = (props) => {
     e.preventDefault();
     let _errors = joi.validate(user, schema).error;
     if (_errors) {
-      toast.error(_errors.details[0].message);
+      toast.error(_errors.details[0].message, { toastId: 3 });
     } else {
       try {
         setBtnClicked(true);
         const response = await addUser(user);
-        toast.success(response.data.message);
+        toast.success(response.data.message, { toastId: 0 });
         props.history.push("/login");
       } catch (e) {
         setBtnClicked(false);
         if (e.response) {
           if (e.response.data.code === 11000) {
             toast.error(
-              `${Object.keys(e.response.data.keyValue)[0]} already exists`
+              `${Object.keys(e.response.data.keyValue)[0]} already exists`,
+              { toastId: 1 }
             );
           } else {
-            toast.error(e.response.data.message);
+            toast.error(e.response.data.message, { toastId: 2 });
           }
         }
       }

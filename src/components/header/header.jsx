@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import { removeAuthUser, setAuthUser } from "../../actions/authActions";
@@ -8,166 +8,173 @@ import { connect } from "react-redux";
 import { Fab } from "@material-ui/core";
 import { AddCircle } from "@material-ui/icons";
 
-class Header extends Component {
-  state = {
-    type: "",
-    keyword: "",
-    searchIsOpen: false,
-  };
-  async componentDidMount() {
+function Header(props) {
+  const [type, setType] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [searchIsOpen, setSearchIsOpen] = useState(false);
+
+  useEffect(() => {
     const username = localStorage.getItem("username");
-    const gettedUser = await getUserByUsername(username);
-    if (gettedUser.data) {
-      this.props.setAuthUser(gettedUser.data);
-    } else {
-      if (localStorage.getItem("jwtToken")) {
-        toast.error("Your session has expired");
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("username");
+    (async function () {
+      const gettedUser = await getUserByUsername(username);
+      if (gettedUser.data) {
+        props.setAuthUser(gettedUser.data);
+      } else {
+        if (localStorage.getItem("jwtToken")) {
+          toast.error("Your session has expired");
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("username");
+        }
       }
-    }
-  }
-  searchInput = () => {
-    this.setState({ searchIsOpen: !this.state.searchIsOpen });
+    })();
+  }, []);
+
+  const searchInput = () => {
+    setSearchIsOpen(!searchIsOpen);
   };
-  changeType = (type) => {
-    this.setState({ type });
+  const changeType = (type) => {
+    setType(type);
   };
-  onSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    const { type, keyword } = this.state;
-    this.props.history.push(`/search?type=${type}&keyword=${keyword}`);
-    this.setState({ searchIsOpen: false });
+    props.history.push(`/search?type=${type}&keyword=${keyword}`);
+    setSearchIsOpen(false);
   };
-  changeHandler = ({ target }) => {
+  const changeHandler = ({ target }) => {
     const newKeyword = target.value;
-    this.setState({ keyword: newKeyword });
+    setKeyword(newKeyword);
   };
-  logout = () => {
-    this.props.removeAuthUser();
+  const logout = () => {
+    props.removeAuthUser();
   };
-  render() {
-    const { type, keyword } = this.state;
-    const { auth } = this.props;
-    return (
-      <header>
-        {auth.isAuthenticated ? (
-          <div className="add-blog">
-            <Link to="/add-blog">
-              <Fab color="secondary" aria-label="add">
-                <AddCircle />
-              </Fab>
-            </Link>
-          </div>
-        ) : (
-          ""
-        )}
-        {this.state.searchIsOpen ? (
-          <div className="search-form">
-            <i className="far fa-times-circle" onClick={this.searchInput}></i>
-            <form onSubmit={this.onSubmit}>
-              <ul className="filters">
-                <span>Search By</span>
-                <li
-                  className={`filter ${type === "user" ? "active" : ""}`}
-                  onClick={() => this.changeType("user")}
-                >
-                  User
-                </li>
-                <li
-                  className={`filter ${type === "title" ? "active" : ""}`}
-                  onClick={() => this.changeType("title")}
-                >
-                  Title
-                </li>
-                <li
-                  className={`filter ${type === "tag" ? "active" : ""}`}
-                  onClick={() => this.changeType("tag")}
-                >
-                  Tag
-                </li>
-              </ul>
-              <input type="hidden" name="type" value={type} />
-              <input
-                type="text"
-                name="keyword"
-                placeholder="type then press enter..."
-                value={keyword}
-                onChange={this.changeHandler}
-              />
-            </form>
-          </div>
-        ) : (
-          ""
-        )}
-        <div className="header__top">
-          <div className="container">
-            <ul className="social-icons sm-12">
-              <i className="fab fa-facebook-f"></i>
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-youtube"></i>
-              <i className="fab fa-slack"></i>
-              <i className="fab fa-linkedin"></i>
+  const { auth } = props;
+  return (
+    <header>
+      {auth.isAuthenticated ? (
+        <div className="add-blog">
+          <Link to="/add-blog">
+            <Fab color="secondary" aria-label="add">
+              <AddCircle />
+            </Fab>
+          </Link>
+        </div>
+      ) : (
+        ""
+      )}
+      {searchIsOpen ? (
+        <div className="search-form">
+          <i className="far fa-times-circle" onClick={searchInput}></i>
+          <form onSubmit={onSubmit}>
+            <ul className="filters">
+              <span>Search By</span>
+              <li
+                className={`filter ${type === "user" ? "active" : ""}`}
+                onClick={() => changeType("user")}
+              >
+                User
+              </li>
+              <li
+                className={`filter ${type === "title" ? "active" : ""}`}
+                onClick={() => changeType("title")}
+              >
+                Title
+              </li>
+              <li
+                className={`filter ${type === "tag" ? "active" : ""}`}
+                onClick={() => changeType("tag")}
+              >
+                Tag
+              </li>
             </ul>
-            <h1 className="title sm-12">
-              <Link to="/">
-                Blog<span>arena</span>
-              </Link>
-            </h1>
-            <div className="header__right sm-12">
-              <div className="nav-right">
-                {auth.isAuthenticated ? (
-                  <Fragment>
-                    <li>
-                      <Link to={`/profile/${auth.activeUser.username}`}>
-                        Me
-                      </Link>
-                    </li>
-                    <li onClick={this.logout} style={{ cursor: "pointer" }}>
-                      Logout
-                    </li>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <li>
-                      <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                      <Link to="/register">Register</Link>
-                    </li>
-                  </Fragment>
-                )}
-                {auth.isAuthenticated ? (
-                  <i className="fas fa-search" onClick={this.searchInput}></i>
-                ) : (
-                  ""
-                )}
-              </div>
+            <input type="hidden" name="type" value={type} />
+            <input
+              type="text"
+              name="keyword"
+              placeholder="type then press enter..."
+              value={keyword}
+              onChange={changeHandler}
+            />
+          </form>
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="header__top">
+        <div className="container">
+          <ul className="social-icons sm-12">
+            <a href="https://www.facebook.com/AhmeddAbbas17">
+              <i className="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://twitter.com/AHMabass">
+              <i className="fab fa-twitter"></i>
+            </a>
+            <a href="https://github.com/AhmedAbbas19">
+              <i className="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/ahmeddabbas/">
+              <i className="fab fa-linkedin"></i>
+            </a>
+            <a href="https://www.instagram.com/ahmed_abbas14">
+              <i className="fab fa-instagram"></i>
+            </a>
+          </ul>
+          <h1 className="title sm-12">
+            <Link to="/">
+              Blog<span>arena</span>
+            </Link>
+          </h1>
+          <div className="header__right sm-12">
+            <div className="nav-right">
+              {auth.isAuthenticated ? (
+                <Fragment>
+                  <li>
+                    <Link to={`/profile/${auth.activeUser.username}`}>Me</Link>
+                  </li>
+                  <li onClick={logout} style={{ cursor: "pointer" }}>
+                    Logout
+                  </li>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">Register</Link>
+                  </li>
+                </Fragment>
+              )}
+              {auth.isAuthenticated ? (
+                <i className="fas fa-search" onClick={searchInput}></i>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
-        <nav>
-          <div className="container">
-            <ul className="navbar">
+      </div>
+      <nav>
+        <div className="container">
+          <ul className="navbar">
+            <li>
+              <Link to="/home">Home</Link>
+            </li>
+            {auth.isAuthenticated ? (
               <li>
-                <Link to="/home">Home</Link>
+                <Link to="/followed">What followers say!</Link>
               </li>
-              {auth.isAuthenticated ? (
-                <li>
-                  <Link to="/followed">What followers say!</Link>
-                </li>
-              ) : (
-                <li>
-                  <Link to="/about">About</Link>
-                </li>
-              )}
-            </ul>
-          </div>
-        </nav>
-      </header>
-    );
-  }
+            ) : (
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+            )}
+          </ul>
+        </div>
+      </nav>
+    </header>
+  );
 }
+
 function mapStateToProps(state) {
   return {
     auth: state.auth,

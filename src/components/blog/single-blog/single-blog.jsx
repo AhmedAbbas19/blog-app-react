@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { followUser } from "../../../actions/userActions";
 import { setAuthUser, authfollowers } from "../../../actions/authActions";
 import { BACKEND_URL } from "../../../config";
-import { Button, Fab, Chip, Avatar } from "@material-ui/core";
+import { Button, Fab, Chip, Avatar, LinearProgress } from "@material-ui/core";
 import { Edit, Delete } from "@material-ui/icons";
 
 class SingleBlog extends Component {
@@ -64,14 +64,7 @@ class SingleBlog extends Component {
     const { auth } = this.props;
     const logged = !!auth.activeUser._id;
     if (!loaded) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     if (!blog) {
       return <Redirect to="/not-found" />;

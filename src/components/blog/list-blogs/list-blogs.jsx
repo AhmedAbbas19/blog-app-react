@@ -8,7 +8,13 @@ import { fetchCategories } from "../../../actions/catActions";
 import { capitalize } from "../../../actions/utilActions";
 import { connect } from "react-redux";
 import { BACKEND_URL } from "../../../config";
-import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
+  LinearProgress,
+} from "@material-ui/core";
 
 class ListBlogs extends Component {
   state = {
@@ -43,14 +49,7 @@ class ListBlogs extends Component {
     const { blogs, loaded, title } = this.state;
     const { categories } = this.props;
     if (!loaded) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     if (!blogs.length) {
       return <Redirect to="/not-found" />;

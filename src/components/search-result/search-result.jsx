@@ -3,6 +3,7 @@ import queryString from "query-string";
 import ListingBlogs from "../blog/listing-blogs/listing-blogs";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
+import { LinearProgress } from "@material-ui/core";
 
 export default class SearchResult extends Component {
   state = {
@@ -39,14 +40,7 @@ export default class SearchResult extends Component {
   render() {
     const { blogs, title, loaded } = this.state;
     if (!loaded) {
-      return (
-        <div className="container text-center">
-          <div className="lds-ripple">
-            <div></div>
-            <div></div>
-          </div>
-        </div>
-      );
+      return <LinearProgress color="secondary" />;
     }
     return (
       <section className="search-result">

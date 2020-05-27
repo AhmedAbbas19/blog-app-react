@@ -66,7 +66,7 @@ const MyEditor = (props) => {
       schema
     ).error;
     if (_errors) {
-      toast.error(_errors.details[0].message);
+      toast.error(_errors.details[0].message, { toastId: 0 });
     } else {
       if (mode === "add") {
         setBtnClicked(true);
@@ -74,26 +74,26 @@ const MyEditor = (props) => {
         blog.body = blogBody;
         addBlog(blog, blogImage)
           .then((response) => {
-            toast.success(response.data.message);
+            toast.success(response.data.message, { toastId: 1 });
             props.history.push("/");
           })
           .catch((e) => {
             setBtnClicked(false);
             if (e.response) {
-              toast.error(e.response.data.message);
+              toast.error(e.response.data.message, { toastId: 2 });
             }
           });
       } else {
         setBtnClicked(true);
         editBlog(blog, blogImage)
           .then((response) => {
-            toast.success(response.data.message);
+            toast.success(response.data.message, { toastId: 3 });
             props.history.push("/");
           })
           .catch((e) => {
             setBtnClicked(false);
             if (e.response) {
-              toast.error(e.response.data.message);
+              toast.error(e.response.data.message, { toastId: 4 });
             }
           });
       }
@@ -110,12 +110,20 @@ const MyEditor = (props) => {
     if (e.which === 13) {
       e.preventDefault();
       const value = e.target.value;
-      let tags = [...blog.tags];
-      e.target.value = "";
-      tags.push(value);
-      blog.tags = tags;
-      setBlog({ ...blog });
+      if (value) {
+        let tags = [...blog.tags];
+        e.target.value = "";
+        tags.push(value);
+        let newBlog = { ...blog, tags };
+        setBlog(newBlog);
+      }
     }
+  };
+
+  const deleteTagHandler = (tag) => {
+    let tags = blog.tags.filter((t) => t !== tag);
+    let newBlog = { ...blog, tags };
+    setBlog(newBlog);
   };
 
   const imageChange = (target) => {
@@ -200,9 +208,15 @@ const MyEditor = (props) => {
                   id="standard-tags"
                   name="tags"
                   onKeyPress={addTagHandler}
+                  placeholder="type a tag then press enter"
                 />
                 {blog.tags.map((tag) => (
-                  <Chip label={tag} key={tag} style={{ margin: "4px" }} />
+                  <Chip
+                    label={tag}
+                    key={tag}
+                    style={{ margin: "4px" }}
+                    onDelete={() => deleteTagHandler(tag)}
+                  />
                 ))}
               </Grid>
               <Grid item xs={12}>

@@ -44,6 +44,7 @@ header .social-icons i {
   margin: 10% auto;
   width: 390px;
 }
+
 .search-form input {
   padding: 20px;
   font-size: 16px;
@@ -79,6 +80,16 @@ header .social-icons i {
   margin: 6px;
   cursor: pointer;
   transition: all 0.5s ease;
+}
+@media (max-width: 768px) {
+  .search-form form {
+    margin: 40% 0;
+    width: 90%;
+  }
+  .search-form .filter,
+  .search-form span {
+    padding: 10px 15px;
+  }
 }
 .search-form .filter:hover,
 .search-form .filter.active {
